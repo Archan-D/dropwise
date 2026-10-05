@@ -43,18 +43,16 @@ A patient code (like `K7M4-QX9P`) lets any clinic that uses Dropwise load a pati
 
 ### Turning codes on (Cloudflare, free)
 
-Codes need Cloudflare Pages (GitHub Pages can't run the server part). The two small server functions are already in `functions/`; they just need a database:
+Codes need Cloudflare (GitHub Pages can't run the server part). The project works with either kind of Cloudflare project:
 
-1. In Cloudflare: **Storage & Databases → KV → Create a namespace**, name it `dropwise-plans`.
-2. Open your Pages project → **Settings → Bindings → Add → KV namespace**. Variable name: `PLANS`. Namespace: `dropwise-plans`. Save.
-3. Redeploy (Deployments → ⋯ → Retry deployment, or push any commit).
-4. Recommended: **Security → WAF → Rate limiting rules**, add a rule for URI path starting with `/api/plan`, for example 20 requests per 10 seconds per IP → Block. This stops anyone trying to guess codes.
+- **Cloudflare Workers** (what Cloudflare creates by default when you import a GitHub repository): nothing to set up. `wrangler.jsonc` tells Cloudflare to run `worker.js` for `/api/…` addresses and to create the code database (a KV namespace bound as `PLANS`) on the first deploy; later deploys keep using the same database. The `name` in `wrangler.jsonc` must match the Worker's name in the Cloudflare dashboard, or the deploy stops with a "name mismatch" error. Dashboard bindings can't be added to a Worker that only serves files, and with `wrangler.jsonc` they aren't needed.
+- **Cloudflare Pages**: the functions in `functions/` run automatically. Add the database yourself: **Storage & databases → Workers KV → Create**, then the Pages project → **Settings → Bindings → Add → KV namespace**, variable name `PLANS`, then **Deployments → ⋯ → Retry deployment**.
 
-If codes don't work, press **Create patient code** on the live site and read the message under the button. The builder asks the server (`/api/status`) what's missing and says which of these it is:
-- **"Running without its server part"**: the `functions` or `server` folder isn't in the GitHub repository, the deploy hasn't finished, or the site is on GitHub Pages or opened from your computer. Check that `functions/api/plan.js`, `functions/api/plan/[code].js`, `functions/api/status.js`, `server/codes.js` and `_routes.json` are in the repository.
-- **"The code database isn't connected"**: step 2 or step 3 above hasn't been done. A binding only takes effect after a redeploy. If the database was bound under another name (e.g. `plans`), it's found anyway.
+Optional, once you have your own domain on Cloudflare: **Security → WAF → Rate limiting rules**, a rule for paths starting with `/api/plan` (for example 20 requests per 10 seconds per IP → Block), so nobody can try to guess codes.
 
-`_routes.json` makes Cloudflare run server code only for `/api/…` addresses; every page and file is served straight from static hosting.
+If codes don't work, press **Create patient code** on the live site and read the message under the button. The builder asks the server (`/api/status`) what's missing:
+- **"Running without its server part"**: `worker.js`, `wrangler.jsonc`, `functions/` or `server/` isn't in the repository, or the last deploy failed (check **Workers & Pages → your project → Deployments** for the build log), or the site is on GitHub Pages or opened from your computer.
+- **"The code database isn't connected"**: on Pages, the binding above is missing or the project wasn't redeployed after adding it.
 
 ### Privacy before real patients
 
@@ -88,16 +86,16 @@ The page prints with no browser header or footer (no URL, date or page numbers).
 
 ## Put it online (free)
 
-1. Create a GitHub account and a new repository called `dropwise`.
-2. Upload every file and folder, keeping the structure (drag the folder's contents into GitHub's *Add file → Upload files* page).
-3. In Cloudflare: **Workers & Pages → Create → Pages → Connect to Git**, pick the repository.
-   - Framework preset: **None**. Build command: leave empty. Output directory: `/`.
-4. Deploy. You'll get an address like `https://dropwise.pages.dev`. Each commit to GitHub redeploys automatically.
-5. Optional: buy a domain (e.g. `dropwise.ca`) and add it under the project's **Custom domains** tab.
+1. Create a GitHub account and a repository called `dropwise`, and upload everything inside the `dropwise` folder (not the folder itself), keeping the structure. On a Mac, `.assetsignore` is hidden in Finder: press **Cmd + Shift + .** to show it before selecting everything.
+2. In Cloudflare: **Workers & Pages → Create application → Import a repository** (Continue with GitHub), pick the repository and deploy. Leave the build command empty; the deploy command stays `npx wrangler deploy`. Cloudflare reads `wrangler.jsonc`, publishes the site files and turns on patient codes. Make sure the project name matches `"name"` in `wrangler.jsonc` (`dropwise`), or change that line to match.
+3. You'll get an address like `https://dropwise.<your-account>.workers.dev`. Each commit to GitHub redeploys automatically.
+4. Optional: add your own domain under the Worker's **Settings → Domains & Routes**.
 
-GitHub Pages also works: repository **Settings → Pages → Deploy from branch → main / root**.
+Cloudflare Pages also works (**Create application → Pages → Import an existing Git repository**, framework preset *None*, build command and output directory empty); see "Turning codes on" for its database step. GitHub Pages works for everything except patient codes.
 
-**Whenever you change any file, open `sw.js` and bump `VERSION`** (e.g. `dropwise-v3`) so phones pick up the new copy.
+`.assetsignore` keeps project files (the server code, tests, tools, this README) off the public site. Cloudflare serves pages at "pretty" addresses (`/about` for `about.html`); the offline helper handles that.
+
+**Whenever you change any file, open `sw.js` and bump `VERSION`** (e.g. `dropwise-v15`) so phones pick up the new copy.
 
 ## Translations
 
@@ -146,7 +144,9 @@ js/patient.js          patient page
 js/qr.js               QR code generator (built in, so it works on clinic networks that block CDNs)
 functions/api/         server functions for patient codes (run by Cloudflare Pages); status.js reports what's set up
 server/codes.js        code format and checks shared by the server functions
-_routes.json           tells Cloudflare to run server code only for /api/ addresses
+_routes.json           Cloudflare Pages: run server code only for /api/ addresses
+worker.js, wrangler.jsonc   Cloudflare Workers: the same server code, settings, and the code database
+.assetsignore          files Cloudflare Workers doesn't publish
 tools/                 CSV ⇄ i18n converters
 tests/                 automated checks (run-tests.js, test-api.mjs)
 sw.js, manifest.webmanifest, icon.*   offline support and home-screen icon

@@ -5,6 +5,7 @@ import {onRequestPost} from "../functions/api/plan.js";
 import {onRequestGet} from "../functions/api/plan/[code].js";
 import {onRequestGet as status} from "../functions/api/status.js";
 import {normalizeCode} from "../server/codes.js";
+import worker from "../worker.js";
 
 let pass = 0, fail = 0;
 const test = async (name, fn) => { try { await fn(); pass++; console.log("  ✓ " + name); } catch(e){ fail++; console.log("  ✗ " + name + "\n      " + e.message); } };
@@ -45,6 +46,16 @@ await test("a database bound under another name (e.g. plans) still works", async
   const e = {plans:kv}, r = await post({plan:PLAN}, e), j = await r.json();
   ok(r.status === 200 && j.code, JSON.stringify(j)); ok((await get(j.code, e)).status === 200, "lookup");
   ok((await (await status({env:e})).json()).codes, "status");
+});
+await test("Cloudflare Workers script routes /api/ to the code functions and everything else to the site files", async () => {
+  const served = [], e = {...env, ASSETS:{fetch:async req => { served.push(new URL(req.url).pathname); return new Response("page"); }}};
+  const call = (path, init) => worker.fetch(new Request("https://x" + path, init), e);
+  const made = await (await call("/api/plan", {method:"POST", body:JSON.stringify({plan:PLAN}), headers:{"content-type":"application/json"}})).json();
+  ok(made.code, JSON.stringify(made));
+  ok((await (await call("/api/plan/" + made.code.toLowerCase())).json()).plan === PLAN, "lookup");
+  const st = await (await call("/api/status")).json(); ok(st.server && st.codes && !st.bindings.includes("ASSETS"), JSON.stringify(st));
+  ok((await call("/api/nothing")).status === 404, "unknown api path");
+  ok(await (await call("/about")).text() === "page" && served[0] === "/about", "pages go to the static files");
 });
 await test("typed O / I / L are read as 0 / 1", () => { ok(normalizeCode("o1il-abcd") === "0111ABCD"); });
 await test("codes don't repeat (2,000 created)", async () => {

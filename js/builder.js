@@ -484,9 +484,9 @@ async function codeTrouble(){
   try { const res = await fetch("api/status", {headers:{accept:"application/json"}, cache:"no-store"}); j = await res.json().catch(() => null); }
   catch(e){ return "Couldn't reach the website. Check the internet connection and try again."; }
   if (!j || !j.server) return "This copy of Dropwise is running without its server part, so codes can't be saved or looked up. "
-    + "Check that the functions and server folders are in the GitHub repository (functions/api/plan.js, functions/api/plan/[code].js, functions/api/status.js, server/codes.js) and that Cloudflare finished deploying. GitHub Pages can't run this part. Until then, paste the patient's link instead.";
-  if (!j.codes) return "The code database isn't connected yet. In Cloudflare: Workers & Pages → your project → Settings → Bindings → Add → KV namespace, name it PLANS and pick your namespace. Then Deployments → ⋯ → Retry deployment."
-    + (j.bindings && j.bindings.length ? ` (Connected now: ${j.bindings.join(", ")}.)` : " (Nothing is connected to the project yet.)");
+    + "Make sure worker.js, wrangler.jsonc and the functions and server folders are in your GitHub repository, then check in Cloudflare that the latest deploy succeeded (Workers & Pages → your project → Deployments). Until then, paste the patient's link instead.";
+  if (!j.codes) return "The code database isn't connected yet. On Cloudflare Workers, check that the latest deploy succeeded: wrangler.jsonc creates the database (PLANS) automatically. On Cloudflare Pages: Settings → Bindings → Add → KV namespace named PLANS, then retry the deployment."
+    + (j.bindings && j.bindings.length ? ` (Connected now: ${j.bindings.join(", ")}.)` : "");
   return "";
 }
 const makeMsg = (msg, err) => { $("codeMakeMsg").textContent = msg; $("codeMakeMsg").classList.toggle("err", !!err); $("codeMakeMsg").hidden = !msg; };

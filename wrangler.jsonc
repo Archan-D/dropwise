@@ -1,0 +1,16 @@
+// Cloudflare Workers settings for Dropwise. Cloudflare reads this file every time it deploys from GitHub.
+// "name" must match the Worker's name in the Cloudflare dashboard exactly, or the deploy stops with an error.
+{
+  "name": "dropwise",
+  "main": "worker.js",
+  "compatibility_date": "2025-10-01",
+  "assets": {
+    // The web pages and files are in the top folder of the repository
+    "directory": "./",
+    "binding": "ASSETS",
+    // Only patient-code requests run the script; every page is served straight from Cloudflare's file hosting
+    "run_worker_first": ["/api/*"]
+  },
+  // The patient-code database. With no "id" here, Cloudflare creates it on the first deploy and keeps using it after that.
+  "kv_namespaces": [{ "binding": "PLANS" }]
+}

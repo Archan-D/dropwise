@@ -266,6 +266,7 @@ const icsDT = (d,m) => `${iso(d).replace(/-/g,"")}T${String(Math.floor(m/60)).pa
 function buildICS(R, lang, url){
   const t = T[lang], start = parse(R.st), H = horizon(R), open = hasOngoing(R), last = open ? H : H - 1;
   const runs = [], live = new Map();
+  /* A run = the same drops at the same time on consecutive days, written as one repeating event */
   for (let i = 0; i <= last; i++) dayPlan(R,i).slots.forEach(s => {
     const key = `${s.t}|${s.drugs.join(",")}`, run = live.get(key);
     if (run && run.start + run.count === i) run.count++; else { const r = {t:s.t, drugs:s.drugs, start:i, count:1}; runs.push(r); live.set(key, r); }
@@ -280,16 +281,18 @@ function buildICS(R, lang, url){
       return `${m.cap !== "none" ? capWord(m.cap, lang) + " " : ""}${m.short}${m.brand ? " (" + m.brand + ")" : ""}${eyes.length > 1 ? " · " + t[drops[i].eye || R.e] : ""}`; };
     const summary = `💧 ${r.drugs.map(one).join(" → ")}${eyes.length === 1 ? " · " + t[eyes[0]] : ""}`;
     const lines = r.drugs.map((i,n) => { const d = drops[i], m = d.m;
-      return `${r.drugs.length > 1 ? (n+1) + ". " : ""}${m.cap !== "none" ? capWord(m.cap, lang) + " · " : ""}${m.name}${m.brand ? " (" + m.brand + ")" : ""} · ${t.cls[m.cls]} · ${t[d.eye || R.e]}${m.shake ? " · ↻ " + t.shake : ""}`; });
+      return `${r.drugs.length > 1 ? (n+1) + ". " : ""}${m.cap !== "none" ? capWord(m.cap, lang) + " · " : ""}${m.name}${m.brand ? " (" + m.brand + ")" : ""} · ${t.cls[m.cls]} · ${t[d.eye || R.e]}${m.shake ? " · ↻ " + t.shake : ""}${m.form === "gel" ? " · " + t.gel : ""}`; });
     if (r.drugs.length > 1) lines.push("", t.order);
     lines.push("", t.capWarn);
-    if (url) lines.push("", t.openApp, url);
+    /* The link opens the phone page with this time's drops at the top ("&at=" is the dose time in minutes after midnight) */
+    const link = url ? `${url}&at=${r.t}` : "";
+    if (link) lines.push("", t.openApp, link);
     const infinite = open && r.start + r.count - 1 === last;
     const d0 = addDays(start, r.start);
     L.push("BEGIN:VEVENT", `UID:dw-${id}-${k}@dropwise`, `DTSTAMP:${stamp}`, `DTSTART:${icsDT(d0,r.t)}`, `DTEND:${icsDT(d0,r.t+5)}`);
     if (infinite) L.push("RRULE:FREQ=DAILY"); else if (r.count > 1) L.push(`RRULE:FREQ=DAILY;COUNT=${r.count}`);
     L.push(`SUMMARY:${icsEscape(summary)}`, `DESCRIPTION:${icsEscape(lines.join("\n"))}`);
-    if (url) L.push(`URL:${url}`);
+    if (link) L.push(`URL:${link}`);
     L.push("BEGIN:VALARM","ACTION:DISPLAY",`DESCRIPTION:${icsEscape(summary)}`,"TRIGGER:PT0M","END:VALARM","END:VEVENT");
   });
   (R.a || []).forEach((a,k) => {
@@ -435,8 +438,7 @@ function apptHTML(R, lang){
   const a = (R.a || []).filter(x => x.date); if (!a.length) return "";
   return `<ul class="appts">${a.map(x => `<li><b>${esc(fullDate(lang, parse(x.date)))}</b>${x.time ? ` · <span class="tnum">${esc(fmtTime(lang, (+x.time.slice(0,2))*60 + (+x.time.slice(3))))}</span>` : ""}</li>`).join("")}</ul>`;
 }
-function howSteps(R, lang){
-  const shake = allDrops(R).some(d => d.m.shake);
+function howSteps(R, lang, shake = allDrops(R).some(d => d.m.shake)){
   return [0,1,2,3,4,5].filter(i => shake || i !== 1).map(i => ({icon:PICTO[i], text:T[lang].how[i], en:T.en.how[i]}));
 }
 function howHTML(R, lang, bi){

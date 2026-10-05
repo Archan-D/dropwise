@@ -3,6 +3,7 @@
    Run from the project folder:  node tests/test-api.mjs */
 import {onRequestPost} from "../functions/api/plan.js";
 import {onRequestGet} from "../functions/api/plan/[code].js";
+import {onRequestGet as status} from "../functions/api/status.js";
 import {normalizeCode} from "../server/codes.js";
 
 let pass = 0, fail = 0;
@@ -33,6 +34,17 @@ await test("only Dropwise plans can be stored", async () => {
 });
 await test("clear message when the database isn't set up", async () => {
   ok((await post({plan:PLAN}, {})).status === 503); ok((await get("ZZZZZZZZ", {})).status === 503);
+});
+await test("status tells the builder whether the code database is connected", async () => {
+  const a = await (await status({env})).json(), b = await (await status({env:{ASSETS:{fetch(){}}}})).json();
+  ok(a.server && a.codes && a.bindings.includes("PLANS"), JSON.stringify(a));
+  ok(b.server && !b.codes && b.bindings.length === 0, JSON.stringify(b));
+});
+await test("a database bound under another name (e.g. plans) still works", async () => {
+  const m = new Map(), kv = {get:async k => m.has(k) ? m.get(k) : null, put:async (k, v) => { m.set(k, v); }, getWithMetadata:async () => ({}), list:async () => ({keys:[]})};
+  const e = {plans:kv}, r = await post({plan:PLAN}, e), j = await r.json();
+  ok(r.status === 200 && j.code, JSON.stringify(j)); ok((await get(j.code, e)).status === 200, "lookup");
+  ok((await (await status({env:e})).json()).codes, "status");
 });
 await test("typed O / I / L are read as 0 / 1", () => { ok(normalizeCode("o1il-abcd") === "0111ABCD"); });
 await test("codes don't repeat (2,000 created)", async () => {

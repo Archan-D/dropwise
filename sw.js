@@ -7,7 +7,7 @@
 
    Some hosts (Cloudflare Pages) redirect /about.html to /about. Browsers refuse a cached redirect as the answer to a
    page visit, so redirects are passed straight through and only plain (non-redirected) copies are stored. */
-const VERSION = "dropwise-v11";
+const VERSION = "dropwise-v14";
 const ASSETS = ["./", "index.html", "patient.html", "about.html", "css/dropwise.css", "js/i18n.js", "js/qr.js", "js/core.js", "js/builder.js", "js/patient.js",
   "manifest.webmanifest", "icon.svg", "icon-192.png", "icon-512.png"];
 const SLOW_MS = 4000;

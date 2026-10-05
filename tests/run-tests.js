@@ -129,7 +129,7 @@ test("alarm titles name cap colour, generic and brand; link has no characters ca
   ok(!/[,;\\]/.test(DW.encode(R)), "link contains , ; or \\");
   const ics = DW.buildICS(R, "zh-Hans", url).replace(/\r\n /g, "");
   ok(ics.includes("SUMMARY:💧 浅棕色瓶盖 Moxifloxacin (Vigamox) → 灰色瓶盖 Ketorolac (Acular) → 粉色瓶盖 Prednisolone (Pred Forte) · 右眼"), "summary");
-  ok(ics.includes("URL:" + url), "URL property");
+  ok(ics.includes("URL:" + url + "&at=480") && ics.includes("URL:" + url + "&at=1260"), "each alarm links to the phone page for its dose time");
 });
 test("events open and close, appointments included", () => {
   const ics = DW.buildICS(make("cataract", "R", {a:[{date:"2026-10-08", time:"09:30"}]}), "en");

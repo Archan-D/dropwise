@@ -85,7 +85,7 @@ const I18N = {
   "done": "Mark as done",
   "taken": "Done",
   "remind": "Add reminders to my calendar",
-  "remindHelp": "Your phone will ask to add the events. A reminder rings at each drop time.",
+  "remindHelp": "Your phone will ask to add the events. A reminder rings at each drop time. Tap it to open this page and see which drops to use.",
   "listen": "Listen to instructions",
   "stop": "Stop",
   "noVoice": "Spoken instructions are not available in this language on this phone yet.",
@@ -202,7 +202,11 @@ const I18N = {
   "tips.glaucoma.4": "Tell every doctor and pharmacist that you use glaucoma drops.",
   "warnG.1": "Sudden eye pain or redness with blurred vision, rainbow halos around lights, headache or nausea",
   "warnG.2": "Swelling of the eyelids or face, a rash, or trouble breathing after using a drop",
-  "warnG.3": "Sudden loss of vision or a curtain over your vision"
+  "warnG.3": "Sudden loss of vision or a curtain over your vision",
+  "voiceT": "Voice",
+  "voiceAuto": "Automatic (most natural)",
+  "voiceTry": "Try this voice",
+  "voiceHelp": "For a more natural voice, download a higher-quality voice in your phone's speech settings."
  },
  "zh-Hans": {
   "title": "您的眼药水使用时间表",
@@ -287,7 +291,7 @@ const I18N = {
   "done": "标记为已完成",
   "taken": "已完成",
   "remind": "把提醒添加到我的日历",
-  "remindHelp": "手机会询问是否添加这些日程。每到用药时间都会提醒您。",
+  "remindHelp": "手机会询问是否添加这些日程。每到滴药时间都会响起提醒。点击提醒即可打开本页面，查看要用哪些眼药水。",
   "listen": "收听使用说明",
   "stop": "停止",
   "noVoice": "这部手机暂时无法用这种语言朗读说明。",
@@ -404,7 +408,11 @@ const I18N = {
   "tips.glaucoma.4": "告诉每一位医生和药剂师您在使用青光眼药水。",
   "warnG.1": "突然眼痛或眼红，并伴有视力模糊、看灯光有彩虹圈、头痛或恶心",
   "warnG.2": "使用眼药水后眼睑或面部肿胀、出疹或呼吸困难",
-  "warnG.3": "突然失明或视野中出现像帘子一样的遮挡"
+  "warnG.3": "突然失明或视野中出现像帘子一样的遮挡",
+  "voiceT": "声音",
+  "voiceAuto": "自动（最自然的声音）",
+  "voiceTry": "试听",
+  "voiceHelp": "如需更自然的声音，请在手机的语音设置中下载更高质量的声音。"
  },
  "zh-Hant": {
   "title": "你的眼藥水使用時間表",
@@ -489,7 +497,7 @@ const I18N = {
   "done": "標記為已完成",
   "taken": "已完成",
   "remind": "把提示加入我的日曆",
-  "remindHelp": "手機會詢問是否加入這些日程。每到用藥時間都會提示你。",
+  "remindHelp": "手機會詢問是否加入這些日程。每到滴藥時間都會響起提示。按一下提示即可打開本頁，查看要用哪些眼藥水。",
   "listen": "收聽使用說明",
   "stop": "停止",
   "noVoice": "這部手機暫時未能以此語言朗讀說明。",
@@ -606,7 +614,11 @@ const I18N = {
   "tips.glaucoma.4": "告訴每一位醫生和藥劑師你正在使用青光眼藥水。",
   "warnG.1": "突然眼痛或眼紅，並伴有視力模糊、看燈光有彩虹光環、頭痛或噁心",
   "warnG.2": "使用眼藥水後眼瞼或面部腫脹、出疹或呼吸困難",
-  "warnG.3": "突然失明或視野中出現像簾幕般的遮擋"
+  "warnG.3": "突然失明或視野中出現像簾幕般的遮擋",
+  "voiceT": "聲音",
+  "voiceAuto": "自動（最自然的聲音）",
+  "voiceTry": "試聽",
+  "voiceHelp": "如需更自然的聲音，請在手機的語音設定中下載更高質素的聲音。"
  },
  "pa": {
   "title": "ਤੁਹਾਡੀਆਂ ਅੱਖਾਂ ਦੀਆਂ ਬੂੰਦਾਂ ਦੀ ਸਮਾਂ-ਸਾਰਣੀ",
@@ -691,7 +703,7 @@ const I18N = {
   "done": "ਹੋ ਗਿਆ ਵਜੋਂ ਨਿਸ਼ਾਨ ਲਗਾਓ",
   "taken": "ਹੋ ਗਿਆ",
   "remind": "ਮੇਰੇ ਕੈਲੰਡਰ ਵਿੱਚ ਯਾਦ-ਦਹਾਨੀਆਂ ਸ਼ਾਮਲ ਕਰੋ",
-  "remindHelp": "ਤੁਹਾਡਾ ਫ਼ੋਨ ਇਹ ਸਮਾਗਮ ਸ਼ਾਮਲ ਕਰਨ ਲਈ ਪੁੱਛੇਗਾ। ਹਰ ਬੂੰਦ ਦੇ ਸਮੇਂ ਯਾਦ-ਦਹਾਨੀ ਵੱਜੇਗੀ।",
+  "remindHelp": "ਤੁਹਾਡਾ ਫ਼ੋਨ ਇਹ ਇਵੈਂਟ ਜੋੜਨ ਲਈ ਪੁੱਛੇਗਾ। ਬੂੰਦਾਂ ਪਾਉਣ ਦੇ ਹਰ ਸਮੇਂ ਰਿਮਾਈਂਡਰ ਵੱਜੇਗਾ। ਇਹ ਪੰਨਾ ਖੋਲ੍ਹਣ ਅਤੇ ਇਹ ਦੇਖਣ ਲਈ ਕਿ ਕਿਹੜੀਆਂ ਬੂੰਦਾਂ ਪਾਉਣੀਆਂ ਹਨ, ਇਸ ਨੂੰ ਦਬਾਓ।",
   "listen": "ਹਦਾਇਤਾਂ ਸੁਣੋ",
   "stop": "ਰੋਕੋ",
   "noVoice": "ਇਸ ਫ਼ੋਨ 'ਤੇ ਅਜੇ ਇਸ ਭਾਸ਼ਾ ਵਿੱਚ ਬੋਲ ਕੇ ਹਦਾਇਤਾਂ ਉਪਲਬਧ ਨਹੀਂ ਹਨ।",
@@ -808,7 +820,11 @@ const I18N = {
   "tips.glaucoma.4": "ਹਰ ਡਾਕਟਰ ਅਤੇ ਫਾਰਮਾਸਿਸਟ ਨੂੰ ਦੱਸੋ ਕਿ ਤੁਸੀਂ ਕਾਲੇ ਮੋਤੀਏ ਦੀਆਂ ਬੂੰਦਾਂ ਵਰਤਦੇ ਹੋ।",
   "warnG.1": "ਅਚਾਨਕ ਅੱਖ ਵਿੱਚ ਦਰਦ ਜਾਂ ਲਾਲੀ, ਨਾਲ ਹੀ ਧੁੰਦਲਾ ਦਿਖਣਾ, ਰੋਸ਼ਨੀਆਂ ਦੁਆਲੇ ਸਤਰੰਗੀ ਘੇਰੇ, ਸਿਰ ਦਰਦ ਜਾਂ ਜੀ ਕੱਚਾ ਹੋਣਾ",
   "warnG.2": "ਬੂੰਦ ਪਾਉਣ ਤੋਂ ਬਾਅਦ ਪਲਕਾਂ ਜਾਂ ਚਿਹਰੇ 'ਤੇ ਸੋਜ, ਧੱਫੜ, ਜਾਂ ਸਾਹ ਲੈਣ ਵਿੱਚ ਤਕਲੀਫ਼",
-  "warnG.3": "ਅਚਾਨਕ ਨਜ਼ਰ ਚਲੀ ਜਾਣਾ ਜਾਂ ਨਜ਼ਰ ਉੱਤੇ ਪਰਦਾ"
+  "warnG.3": "ਅਚਾਨਕ ਨਜ਼ਰ ਚਲੀ ਜਾਣਾ ਜਾਂ ਨਜ਼ਰ ਉੱਤੇ ਪਰਦਾ",
+  "voiceT": "ਆਵਾਜ਼",
+  "voiceAuto": "ਆਪਣੇ-ਆਪ (ਸਭ ਤੋਂ ਕੁਦਰਤੀ ਆਵਾਜ਼)",
+  "voiceTry": "ਇਹ ਆਵਾਜ਼ ਸੁਣੋ",
+  "voiceHelp": "ਹੋਰ ਕੁਦਰਤੀ ਆਵਾਜ਼ ਲਈ, ਆਪਣੇ ਫ਼ੋਨ ਦੀਆਂ ਬੋਲਣ (speech) ਵਾਲੀਆਂ ਸੈਟਿੰਗਾਂ ਵਿੱਚ ਵਧੀਆ ਆਵਾਜ਼ ਡਾਊਨਲੋਡ ਕਰੋ।"
  },
  "ar": {
   "title": "جدول قطرات العين الخاص بك",
@@ -895,7 +911,7 @@ const I18N = {
   "done": "تحديد كمنجز",
   "taken": "تم",
   "remind": "أضف التذكيرات إلى تقويمي",
-  "remindHelp": "سيطلب هاتفك إضافة المواعيد. سيرن التذكير في وقت كل قطرة.",
+  "remindHelp": "سيطلب هاتفك إضافة المواعيد. سيرنّ تذكير في كل موعد للقطرات. اضغط عليه لفتح هذه الصفحة ومعرفة القطرات التي يجب استخدامها.",
   "listen": "استمع إلى التعليمات",
   "stop": "إيقاف",
   "noVoice": "التعليمات الصوتية غير متوفرة بهذه اللغة على هذا الهاتف حالياً.",
@@ -1013,6 +1029,10 @@ const I18N = {
   "warnG.1": "ألم أو احمرار مفاجئ في العين مع تشوش الرؤية أو هالات ملونة حول الأضواء أو صداع أو غثيان",
   "warnG.2": "تورم الجفون أو الوجه، أو طفح جلدي، أو صعوبة في التنفس بعد استخدام القطرة",
   "warnG.3": "فقدان مفاجئ للبصر أو ستارة تغطي الرؤية",
+  "voiceT": "الصوت",
+  "voiceAuto": "تلقائي (الصوت الأكثر طبيعية)",
+  "voiceTry": "جرّب هذا الصوت",
+  "voiceHelp": "للحصول على صوت أكثر طبيعية، نزّل صوتاً عالي الجودة من إعدادات النطق في هاتفك.",
   "fq.n#2": "مرتان في اليوم",
   "dur#2": "يومان",
   "dur#few": "{n} أيام"
@@ -1100,7 +1120,7 @@ const I18N = {
   "done": "완료로 표시",
   "taken": "완료",
   "remind": "내 캘린더에 알림 추가",
-  "remindHelp": "휴대폰에서 일정 추가 여부를 묻습니다. 안약 시간마다 알림이 울립니다.",
+  "remindHelp": "휴대폰에서 일정을 추가할지 묻습니다. 안약을 넣을 시간마다 알림이 울립니다. 알림을 누르면 이 페이지가 열리고 어떤 안약을 넣을지 볼 수 있습니다.",
   "listen": "사용 방법 듣기",
   "stop": "중지",
   "noVoice": "이 휴대폰에서는 아직 이 언어로 음성 안내를 들을 수 없습니다.",
@@ -1217,7 +1237,11 @@ const I18N = {
   "tips.glaucoma.4": "모든 의사와 약사에게 녹내장 안약을 사용 중이라고 알리세요.",
   "warnG.1": "갑작스러운 눈 통증이나 충혈과 함께 시야가 흐려지거나, 불빛 주위에 무지개 같은 테가 보이거나, 두통 또는 메스꺼움",
   "warnG.2": "안약을 넣은 뒤 눈꺼풀이나 얼굴이 붓거나, 발진이 생기거나, 숨쉬기가 어려움",
-  "warnG.3": "갑자기 시력을 잃거나 시야를 가리는 커튼 같은 것이 보임"
+  "warnG.3": "갑자기 시력을 잃거나 시야를 가리는 커튼 같은 것이 보임",
+  "voiceT": "목소리",
+  "voiceAuto": "자동(가장 자연스러운 목소리)",
+  "voiceTry": "들어 보기",
+  "voiceHelp": "더 자연스러운 목소리를 원하시면 휴대폰의 음성 설정에서 고품질 음성을 내려받으세요."
  },
  "vi": {
   "title": "Lịch nhỏ thuốc mắt của bạn",
@@ -1302,7 +1326,7 @@ const I18N = {
   "done": "Đánh dấu đã xong",
   "taken": "Đã xong",
   "remind": "Thêm lời nhắc vào lịch của tôi",
-  "remindHelp": "Điện thoại sẽ hỏi bạn có muốn thêm các sự kiện không. Lời nhắc sẽ reo vào mỗi giờ nhỏ thuốc.",
+  "remindHelp": "Điện thoại sẽ hỏi để thêm các sự kiện. Mỗi khi đến giờ nhỏ thuốc, lời nhắc sẽ reo. Chạm vào lời nhắc để mở trang này và xem cần dùng thuốc nào.",
   "listen": "Nghe hướng dẫn",
   "stop": "Dừng",
   "noVoice": "Điện thoại này chưa hỗ trợ đọc hướng dẫn bằng ngôn ngữ này.",
@@ -1419,7 +1443,11 @@ const I18N = {
   "tips.glaucoma.4": "Hãy cho mọi bác sĩ và dược sĩ biết bạn đang dùng thuốc nhỏ tăng nhãn áp.",
   "warnG.1": "Đau mắt hoặc đỏ mắt đột ngột kèm nhìn mờ, thấy quầng sáng nhiều màu quanh đèn, đau đầu hoặc buồn nôn",
   "warnG.2": "Sưng mí mắt hoặc mặt, nổi mẩn, hoặc khó thở sau khi nhỏ thuốc",
-  "warnG.3": "Đột ngột mất thị lực hoặc có màn che trước mắt"
+  "warnG.3": "Đột ngột mất thị lực hoặc có màn che trước mắt",
+  "voiceT": "Giọng đọc",
+  "voiceAuto": "Tự động (giọng tự nhiên nhất)",
+  "voiceTry": "Nghe thử",
+  "voiceHelp": "Để có giọng đọc tự nhiên hơn, hãy tải giọng chất lượng cao trong phần cài đặt giọng nói của điện thoại."
  },
  "ja": {
   "title": "目薬の使用スケジュール",
@@ -1504,7 +1532,7 @@ const I18N = {
   "done": "完了にする",
   "taken": "完了",
   "remind": "カレンダーにリマインダーを追加",
-  "remindHelp": "スマートフォンに予定の追加を確認する画面が出ます。点眼の時刻ごとに通知が鳴ります。",
+  "remindHelp": "スマートフォンが予定の追加を確認します。点眼の時間ごとにリマインダーが鳴ります。タップするとこのページが開き、使う目薬を確認できます。",
   "listen": "説明を聞く",
   "stop": "停止",
   "noVoice": "このスマートフォンでは、この言語の音声説明はまだ使えません。",
@@ -1621,7 +1649,11 @@ const I18N = {
   "tips.glaucoma.4": "どの医師や薬剤師にも、緑内障の目薬を使っていることを伝えてください。",
   "warnG.1": "突然の目の痛みや充血に加え、かすみ目、光の周りに虹のような輪が見える、頭痛、吐き気がある",
   "warnG.2": "目薬を使った後に、まぶたや顔の腫れ、発疹、息苦しさがある",
-  "warnG.3": "急に見えなくなる、または視野にカーテンがかかったように見える"
+  "warnG.3": "急に見えなくなる、または視野にカーテンがかかったように見える",
+  "voiceT": "声",
+  "voiceAuto": "自動（最も自然な声）",
+  "voiceTry": "試しに聞く",
+  "voiceHelp": "より自然な声にするには、スマートフォンの読み上げ設定で高品質の声をダウンロードしてください。"
  }
 };
 if (typeof module !== "undefined") module.exports = I18N;

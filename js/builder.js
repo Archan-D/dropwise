@@ -477,7 +477,19 @@ const CODE_CHARS = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
 const normCode = raw => { const c = String(raw || "").toUpperCase().replace(/[\s-]/g, "").replace(/O/g, "0").replace(/[IL]/g, "1");
   return c.length === 8 && [...c].every(ch => CODE_CHARS.includes(ch)) ? c : null; };
 const codeMsg = (msg, err) => { $("codeMsg").textContent = msg; $("codeMsg").classList.toggle("err", !!err); };
-const NO_SERVER = "Patient codes need the Dropwise server (Cloudflare with the code database set up; see the README). Until then, paste the patient's link instead.";
+/* Why codes aren't working, in plain words, from the server's own status report */
+async function codeTrouble(){
+  if (location.protocol === "file:") return "Patient codes only work on the live website, not on a copy opened from this computer. You can paste the patient's link instead.";
+  let j = null;
+  try { const res = await fetch("api/status", {headers:{accept:"application/json"}, cache:"no-store"}); j = await res.json().catch(() => null); }
+  catch(e){ return "Couldn't reach the website. Check the internet connection and try again."; }
+  if (!j || !j.server) return "This copy of Dropwise is running without its server part, so codes can't be saved or looked up. "
+    + "Check that the functions and server folders are in the GitHub repository (functions/api/plan.js, functions/api/plan/[code].js, functions/api/status.js, server/codes.js) and that Cloudflare finished deploying. GitHub Pages can't run this part. Until then, paste the patient's link instead.";
+  if (!j.codes) return "The code database isn't connected yet. In Cloudflare: Workers & Pages → your project → Settings → Bindings → Add → KV namespace, name it PLANS and pick your namespace. Then Deployments → ⋯ → Retry deployment."
+    + (j.bindings && j.bindings.length ? ` (Connected now: ${j.bindings.join(", ")}.)` : " (Nothing is connected to the project yet.)");
+  return "";
+}
+const makeMsg = (msg, err) => { $("codeMakeMsg").textContent = msg; $("codeMakeMsg").classList.toggle("err", !!err); $("codeMakeMsg").hidden = !msg; };
 function applyPlan(R, code){
   Object.assign(S, {s:R.s, e:R.e, sd:R.sd, st:R.st, l:R.l, p:R.p || "", clinic:R.clinic || "", d:R.d, u:R.u || [], a:R.a || [], sn:R.sn || "", snl:R.snl || "",
     sel:R.s, patient:"", startTouched:true});
@@ -498,21 +510,21 @@ async function loadInput(){
   try {
     const res = await fetch("api/plan/" + code, {headers:{accept:"application/json"}});
     const j = await res.json().catch(() => null);
-    if (!res.ok || !j){ codeMsg(j && j.error && res.status !== 503 ? j.error : NO_SERVER, true); return; }
+    if (!res.ok || !j){ codeMsg(j && j.error && res.status !== 503 ? j.error : await codeTrouble() || "Couldn't look up that code. Try again.", true); return; }
     const R = DW.decode(j.plan); if (!R){ codeMsg("That code's plan couldn't be read.", true); return; }
     applyPlan(R, j.code);
-  } catch(e){ codeMsg(NO_SERVER, true); }
+  } catch(e){ codeMsg(await codeTrouble() || "Couldn't look up that code. Try again.", true); }
 }
 $("codeLoad").addEventListener("click", loadInput);
 $("codeIn").addEventListener("keydown", e => { if (e.key === "Enter") loadInput(); });
 $("codeMake").addEventListener("click", async () => {
-  const btn = $("codeMake"); btn.disabled = true;
+  const btn = $("codeMake"); btn.disabled = true; makeMsg("Creating a code…");
   try {
     const res = await fetch("api/plan", {method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify({plan:encode({...S, code:""})})});
     const j = await res.json().catch(() => null);
-    if (!res.ok || !j || !j.code){ flash(j && j.error && res.status !== 503 ? j.error : "Couldn't create a code. " + NO_SERVER); return; }
-    S.code = j.code; S.codeFor = planKey(); renderSheet(); flash(`Code ${DW.prettyCode(j.code)} created. It's now on the sheet and the phone page.`);
-  } catch(e){ flash("Couldn't create a code. " + NO_SERVER); }
+    if (!res.ok || !j || !j.code){ makeMsg(j && j.error && res.status !== 503 ? j.error : await codeTrouble() || "Couldn't create a code. Try again.", true); return; }
+    S.code = j.code; S.codeFor = planKey(); renderSheet(); makeMsg(`Code ${DW.prettyCode(j.code)} created. It's now on the sheet and the phone page.`);
+  } catch(e){ makeMsg(await codeTrouble() || "Couldn't create a code. Try again.", true); }
   finally { btn.disabled = false; }
 });
 

@@ -50,7 +50,11 @@ Codes need Cloudflare Pages (GitHub Pages can't run the server part). The two sm
 3. Redeploy (Deployments → ⋯ → Retry deployment, or push any commit).
 4. Recommended: **Security → WAF → Rate limiting rules**, add a rule for URI path starting with `/api/plan`, for example 20 requests per 10 seconds per IP → Block. This stops anyone trying to guess codes.
 
-Until step 2 is done, the builder says codes aren't set up and suggests pasting the patient's link instead.
+If codes don't work, press **Create patient code** on the live site and read the message under the button. The builder asks the server (`/api/status`) what's missing and says which of these it is:
+- **"Running without its server part"**: the `functions` or `server` folder isn't in the GitHub repository, the deploy hasn't finished, or the site is on GitHub Pages or opened from your computer. Check that `functions/api/plan.js`, `functions/api/plan/[code].js`, `functions/api/status.js`, `server/codes.js` and `_routes.json` are in the repository.
+- **"The code database isn't connected"**: step 2 or step 3 above hasn't been done. A binding only takes effect after a redeploy. If the database was bound under another name (e.g. `plans`), it's found anyway.
+
+`_routes.json` makes Cloudflare run server code only for `/api/…` addresses; every page and file is served straight from static hosting.
 
 ### Privacy before real patients
 
@@ -72,12 +76,14 @@ The page prints with no browser header or footer (no URL, date or page numbers).
 ## The patient phone page
 
 - **Next drops**: the time of day, then each bottle in order with its cap colour, generic and brand name, eye and what it's for, a **Start these drops** button and a "Mark as done" button. **▶** reads exactly those bottles aloud ("Morning, 8 am. Grey cap, Ketorolac, Acular, right eye. Pink cap, Prednisolone, Pred Forte, right eye, shake well…").
-- **Step-by-step screen** ("It's time"): one bottle at a time with a large cap-colour mark, the drug name and eye. After each bottle a **5-minute timer** runs before the next one, then the phone chimes and vibrates. The screen stays on while it runs. Calendar alarms open this screen directly.
+- **Step-by-step screen** ("It's time"): one bottle at a time with a large cap-colour mark, the drug name and eye. After each bottle a **5-minute timer** runs before the next one, then the phone chimes and vibrates. The screen stays on while it runs.
 - **Today's drops**: one row per time of day (morning, noon, evening, bedtime) listing the bottles in order; tap a row when it's done. The card header shows how many dose times are done today.
 - **Progress**: "Day 9 of 28" with a bar, and a calendar of day squares (green = all drops done that day).
-- **Add reminders to my calendar**: downloads a calendar file with an alarm at every dose time and one the day before each appointment. Each alarm's title is in the patient's language and names the cap colour, generic and brand, and the eye, e.g. *💧 PINK cap Prednisolone (Pred Forte) · Right eye*. The event notes list the order and include a link that opens this page, where the patient taps ▶ to hear the instructions.
+- **Add reminders to my calendar**: downloads a calendar file with an alarm at every dose time and one the day before each appointment. Each alarm's title is in the patient's language and names the cap colour, generic and brand, and the eye, e.g. *💧 GREY cap Ketorolac (Acular) → PINK cap Prednisolone (Pred Forte) · Right eye*.
+- **Alarm links**: the link in each alarm opens this same phone page, with the drops due at that time (on that day of the taper) at the top under "It's time for your eye drops". It stays that way until those drops are marked done or the next dose time arrives. Older alarms (links ending in `&now=1`) open the page the same way.
 - If the patient opens a newer schedule after adding reminders from an older one, the page warns them to delete the old reminders first.
 - **Listen to instructions**: plays a recorded file from `audio/<language>/instructions.mp3` if you add one, otherwise the phone's own voice. Cantonese never falls back to a Mandarin voice.
+- **Voice**: phones often have several voices per language. The most natural-sounding one is picked automatically ("enhanced", "premium", "natural" and network voices first; joke voices never). The patient can choose another voice and try it; the choice is remembered. A note explains that better voices can be downloaded in the phone's speech settings (iPhone: Settings → Accessibility → Spoken Content → Voices; Android: Settings → Text-to-speech output).
 - **Text size** chosen the first time the page opens (normal, large, extra large) and changeable with **Aa Text size**. **Send to a family member**, and offline use once opened.
 
 ## Put it online (free)
@@ -138,8 +144,9 @@ js/core.js             drug list, presets, scheduling, link encoding, calendar e
 js/builder.js          builder page
 js/patient.js          patient page
 js/qr.js               QR code generator (built in, so it works on clinic networks that block CDNs)
-functions/api/         server functions for patient codes (run by Cloudflare Pages)
+functions/api/         server functions for patient codes (run by Cloudflare Pages); status.js reports what's set up
 server/codes.js        code format and checks shared by the server functions
+_routes.json           tells Cloudflare to run server code only for /api/ addresses
 tools/                 CSV ⇄ i18n converters
 tests/                 automated checks (run-tests.js, test-api.mjs)
 sw.js, manifest.webmanifest, icon.*   offline support and home-screen icon

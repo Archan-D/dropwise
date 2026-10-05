@@ -18,6 +18,11 @@ export function normalizeCode(raw){
   return c.length === CODE_LEN && [...c].every(ch => ALPHABET.includes(ch)) ? c : null;
 }
 export const validPlan = p => typeof p === "string" && PLAN_RE.test(p);
+/* The code database: the KV namespace bound as PLANS. If it was bound under another name (plans, DB…), use that instead. */
+const isKV = v => v && typeof v === "object" && typeof v.get === "function" && typeof v.put === "function" && typeof v.getWithMetadata === "function";
+export const plansOf = env => (env && (env.PLANS || Object.values(env).find(isKV))) || null;
+/* Names of everything bound to the project (never their contents), to help set-up */
+export const bindingNames = env => Object.entries(env || {}).filter(([k, v]) => k !== "ASSETS" && v && typeof v === "object").map(([k]) => k);
 export function json(body, status = 200){
   return new Response(JSON.stringify(body), {status, headers:{
     "content-type":"application/json; charset=utf-8",

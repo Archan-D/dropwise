@@ -1,0 +1,172 @@
+/* Dropwise shared styles: colour tokens, fonts, drop marks and the patient-sheet components used by both pages. */
+:root{
+  --desk:#e6ebf0; --panel:#f6f8fa; --paper:#ffffff; --ink:#16243a; --muted:#586577; --rule:#d2d9e1;
+  --accent:#1d5a86; --accent-ink:#ffffff; --flu:#dbe94f; --good:#2e7d4f; --good-bg:#e5f3ea;
+  --warn:#a8231b; --warn-bg:#fcebe9; --field:#ffffff; --tint:color-mix(in srgb,var(--rule) 30%,transparent);
+  /* Cap colours (AAO topical ocular cap colour code, plus common glaucoma caps) */
+  --cap-tan:#c9a06c; --cap-pink:#ef97ae; --cap-gray:#9aa1a8; --cap-red:#d44343; --cap-green:#3f9b5b; --cap-purple:#8b62c7;
+  --cap-yellow:#e8c93c; --cap-teal:#2aa3a3; --cap-orange:#e88a2e; --cap-blue:#3d7cc9; --cap-white:#f7f7f4; --cap-navy:#22356b; --cap-lightgreen:#8fd18a;
+  --f-body:"Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --desk:#0f141a; --panel:#141b23; --paper:#1a222c; --ink:#e5ebf1; --muted:#9ba8b6; --rule:#2c3744;
+  --accent:#7db4de; --accent-ink:#0f141a; --flu:#c6d93a; --good:#7fd19e; --good-bg:#1c3326;
+  --warn:#ff8f85; --warn-bg:#3a2020; --field:#10161d; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --desk:#0f141a; --panel:#141b23; --paper:#1a222c; --ink:#e5ebf1; --muted:#9ba8b6; --rule:#2c3744;
+  --accent:#7db4de; --accent-ink:#0f141a; --flu:#c6d93a; --good:#7fd19e; --good-bg:#1c3326;
+  --warn:#ff8f85; --warn-bg:#3a2020; --field:#10161d; color-scheme:dark }
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--desk);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5}
+[hidden]{display:none!important}
+img,svg{max-width:100%}
+button,input,select,textarea{font:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* Script-specific fonts */
+:lang(pa){font-family:"Noto Sans Gurmukhi",var(--f-body)}
+:lang(ar){font-family:"Noto Naskh Arabic",var(--f-body)}
+:lang(zh-Hans){font-family:var(--f-body),"PingFang SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif}
+:lang(zh-Hant){font-family:var(--f-body),"PingFang HK","PingFang TC","Noto Sans CJK TC","Microsoft JhengHei",sans-serif}
+:lang(ja){font-family:var(--f-body),"Hiragino Sans","Noto Sans CJK JP","Yu Gothic",sans-serif}
+:lang(ko){font-family:var(--f-body),"Apple SD Gothic Neo","Noto Sans CJK KR","Malgun Gothic",sans-serif}
+.en{display:block;font-family:var(--f-body);font-size:.8em;color:var(--muted);font-weight:400;line-height:1.3;margin-top:1px}
+
+/* Drop marks: shape = type of drop, fill = cap colour */
+.mark{flex:none;display:inline-block;vertical-align:middle;overflow:visible}
+.drug-name{display:flex;align-items:center;gap:6px 7px;font-weight:700;flex-wrap:wrap;line-height:1.25}
+.drug-name .brand{font-weight:400;color:var(--muted)}
+.drug-cls{font-weight:400;font-size:.88em;margin-top:2px;padding-inline-start:25px}
+.badge{font-size:.72em;font-weight:700;border:1px solid currentColor;border-radius:99px;padding:0 7px;white-space:nowrap;line-height:1.5}
+.badge.eye{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.no-wrap{white-space:nowrap}
+.tnum{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+
+/* At a glance (taper staircase) */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--rule);border-radius:8px}
+.glance{border-collapse:collapse;width:100%}
+.glance th,.glance td{padding:7px 10px;border-bottom:1px solid var(--rule);text-align:center;vertical-align:middle}
+.glance tr:last-child td{border-bottom:0}
+.glance thead th{font-size:.85em;background:var(--tint);vertical-align:bottom}
+.glance thead .drug-name{flex-direction:column;gap:3px;justify-content:center}
+.glance th:first-child,.glance td:first-child{text-align:start}
+.glance .range{font-family:var(--f-mono);font-size:.85em;white-space:nowrap;font-variant-numeric:tabular-nums}
+.glance .range small{display:block;color:var(--muted);font-family:var(--f-body);font-size:.92em}
+.glance tr.now td{background:color-mix(in srgb,var(--flu) 30%,transparent)}
+.dots{display:inline-flex;gap:4px;flex-wrap:wrap;justify-content:center}
+.cell-note{font-size:.82em;font-weight:700;display:inline-flex;align-items:center;gap:4px}
+.cell-none{color:var(--muted)}
+.key{margin:6px 0 0;font-size:.82em;color:var(--muted)}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:8px 18px}
+
+/* What to use and when (stages × clock times) */
+.order-note{margin:0;font-size:.88em;font-weight:700}
+.when-tbl{border-collapse:collapse;width:100%}
+.when-tbl th,.when-tbl td{padding:6px 8px;border-bottom:1px solid var(--rule);text-align:center;vertical-align:middle}
+.when-tbl tr:last-child td{border-bottom:0}
+.when-tbl thead th{background:var(--tint);font-size:.82em;font-weight:500;white-space:nowrap}
+.when-tbl thead th .ico{width:16px;height:16px;color:var(--muted);display:block;margin:0 auto 1px}
+.when-tbl th:first-child,.when-tbl td:first-child{text-align:start}
+.when-tbl .range{font-family:var(--f-mono);font-size:.85em;white-space:nowrap;font-variant-numeric:tabular-nums}
+.when-tbl .range .prn{display:flex;align-items:center;gap:3px;font-family:var(--f-body);color:var(--muted);font-size:.9em;white-space:normal}
+.seq{display:inline-flex;align-items:center;gap:2px}
+.seq .arrow{width:9px;height:9px;display:inline-block;position:relative}
+.seq .arrow::before{content:"";position:absolute;inset:2px 1px;border-top:1.5px solid var(--muted)}
+.seq .arrow::after{content:"";position:absolute;right:0;top:2px;width:4px;height:4px;border:solid var(--muted);border-width:1.5px 1.5px 0 0;transform:rotate(45deg)}
+[dir="rtl"] .seq .arrow{transform:scaleX(-1)}
+.ico{width:18px;height:18px}
+.eye-head{break-after:avoid;page-break-after:avoid;margin:4px 0 0;display:flex;align-items:baseline;gap:8px;font-size:1em}
+.eye-head .badge{font-size:.9em;padding:2px 10px}
+.eye-head .en{display:inline}
+
+/* Usual drops and appointments */
+.usual,.appts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.usual li{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:2px 8px}
+.usual .u-act{grid-column:2}
+.usual .u-name{font-weight:700}
+.usual .u-act{font-size:.92em}
+.usual li.stop .u-name{text-decoration:line-through;text-decoration-thickness:2px}
+.usual li.stop .u-act{color:var(--warn);font-weight:700}
+.appts li{font-size:.95em}
+
+/* How to use your drops: pictogram cards */
+.how-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;counter-reset:how}
+.how-grid li{display:grid;grid-template-columns:56px minmax(0,1fr);gap:10px;align-items:center;border:1px solid var(--rule);border-radius:8px;padding:8px 10px;counter-increment:how}
+.how-grid .picto{width:56px;height:56px;color:var(--ink);position:relative}
+.how-grid .picto::before{content:counter(how);position:absolute;inset-inline-start:-4px;top:-4px;background:var(--ink);color:var(--paper);font-weight:700;font-size:.75rem;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-body)}
+.missed{border-inline-start:4px solid var(--accent);background:var(--tint);padding:8px 12px;border-radius:4px;font-weight:700}
+
+.tips{margin:0;padding-inline-start:1.2em;display:flex;flex-direction:column;gap:5px}
+.warn{border:2px solid var(--warn);background:var(--warn-bg);border-radius:8px;padding:12px 16px}
+.warn h3,.warn h2{color:var(--warn)}
+.warn ul{margin:0;padding-inline-start:1.2em;display:flex;flex-direction:column;gap:4px;font-weight:700}
+.phone-num{font-family:var(--f-mono);direction:ltr;unicode-bidi:isolate}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* Bottle label: cap colour in words, then generic (brand) */
+.bottle{display:flex;align-items:flex-start;gap:8px;min-width:0}
+.bottle .mark{margin-top:1px}
+.b-text{display:flex;flex-direction:column;min-width:0}
+.b-cap{font-weight:700;font-size:1.02em;line-height:1.2;letter-spacing:.01em}
+.en-in{font-family:var(--f-body);font-weight:400;font-size:.78em;color:var(--muted)}
+.b-name .badge{vertical-align:1px}
+.b-name{font-size:.9em;line-height:1.25;overflow-wrap:break-word}
+.b-name .brand{color:var(--muted)}
+.b-badges{display:flex;flex-wrap:wrap;gap:4px;margin-top:3px}
+.b-what{font-size:.82em;color:var(--muted);margin-top:2px}
+.b-last{font-size:.8em;font-weight:700;margin-top:2px;color:var(--warn)}
+.badge.today{background:var(--flu);color:#16243a;border-color:transparent}
+
+/* Pill cards: one per taper stage, four fixed time-of-day columns so they never overflow */
+.pcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:10px}
+.pcard{border:1.5px solid var(--ink);border-radius:8px;overflow:hidden;min-width:0;break-inside:avoid}
+.pcard.now{box-shadow:0 0 0 3px color-mix(in srgb,var(--flu) 70%,transparent)}
+.pcard header{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;padding:6px 10px;background:var(--ink);color:var(--paper);font-weight:700}
+.pcard header small{font-weight:400;opacity:.85}
+.pc{border-collapse:collapse;width:100%;table-layout:fixed}
+.pc th{font-size:.72em;font-weight:700;padding:5px 2px 4px;text-align:center;vertical-align:bottom;background:var(--tint);line-height:1.15}
+.pc th:first-child{width:48%}
+.pc th .ico{width:16px;height:16px;display:block;margin:0 auto 1px;color:var(--ink)}
+.pc th .s-name{display:block}
+.pc th .en{font-size:.9em;margin:0}
+.pc th .s-time{display:block;font-family:var(--f-mono);font-weight:500;color:var(--muted);font-size:.95em}
+.pc td{border-top:1px solid var(--rule);padding:5px 2px;text-align:center;vertical-align:middle}
+.pc td + td{border-inline-start:1px dashed var(--rule)}
+.pc td.pc-name{text-align:start;padding:5px 8px;display:flex;gap:4px;align-items:flex-start}
+.pc td.pc-name .num{color:var(--accent);font-size:1.1em;line-height:1.3}
+.pc td.span{font-weight:700;font-size:.9em}
+.pc .dose{display:inline-flex}
+.pcards.one{grid-template-columns:minmax(0,1fr)}
+.pcards.one .pc th:first-child{width:40%}
+.pcard header .en{display:inline;color:inherit;opacity:.8;margin-inline-start:6px}
+
+/* Glaucoma: one row per bottle with which eye, how often and possible side effects */
+.info-tbl{border-collapse:collapse;width:100%;border:1.5px solid var(--ink);border-radius:8px;overflow:hidden;border-spacing:0}
+.info-tbl th{background:var(--ink);color:var(--paper);text-align:start;font-size:.85em;padding:5px 10px}
+.info-tbl th .en{display:inline;color:inherit;opacity:.8;margin-inline-start:6px}
+.info-tbl td{border-top:1px solid var(--rule);padding:5px 10px;vertical-align:top}
+.info-tbl tr{break-inside:avoid}
+.info-drop{width:35%}
+.info-name{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;gap:7px;line-height:1.25}
+.info-name .brand{color:var(--muted)}
+.info-cls{font-size:.85em;color:var(--muted);margin-top:2px}
+.info-when{display:flex;align-items:flex-start;gap:5px;font-weight:700;margin-top:4px;font-size:.95em}
+.info-when .ico{width:16px;height:16px;flex:none;margin-top:1px}
+.info-se{font-size:.9em}
+.info-se .se-lbl{display:none}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* On a phone the two columns stack */
+@media (max-width:560px){
+  .info-tbl,.info-tbl tbody,.info-tbl tr,.info-tbl td{display:block;width:auto}
+  .info-tbl thead{display:none}
+  .info-tbl tr + tr{border-top:1.5px solid var(--ink)}
+  .info-tbl td{border-top:0}
+  .info-tbl td.info-se{padding-top:0;padding-inline-start:39px}
+  .info-se .se-lbl{display:block;color:var(--muted);font-size:.92em}
+  .info-se .se-lbl .en{display:inline;margin-inline-start:5px}
+}

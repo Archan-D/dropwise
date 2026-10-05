@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>About Dropwise</title>
+<meta name="description" content="What Dropwise does: eye drop schedules after eye surgery and for glaucoma, as a printed sheet and a phone page in eight languages.">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&family=Noto+Sans+Gurmukhi:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap">
+<link rel="stylesheet" href="css/dropwise.css">
+<style>
+/* Layout: a hero that pairs a short description with a real pill card drawn by the app, then one section per topic. */
+/* This page uses Inter; the sample card and language chips keep their script fonts through var(--f-body) */
+:root{--f-body:"Inter", system-ui, -apple-system, "Segoe UI", sans-serif}
+body{background:var(--paper);font-size:17px;line-height:1.6;font-family:var(--f-body)}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:20px}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-block:16px;border-bottom:1px solid var(--rule)}
+.logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:1.15rem;color:var(--ink);text-decoration:none}
+.drop-mark{width:12px;height:16px;background:var(--accent);border-radius:50%/60% 60% 40% 40%;transform:rotate(180deg);display:inline-block}
+.nav a.cta{font-weight:700;color:var(--accent);font-size:.95rem}
+
+.hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:40px;align-items:center;padding-block:48px 40px}
+@media (max-width:860px){.hero{grid-template-columns:minmax(0,1fr);gap:28px;padding-block:32px}}
+h1{font-size:clamp(1.9rem,4.4vw,2.7rem);line-height:1.12;margin:0 0 14px;text-wrap:balance}
+.lede{font-size:1.12rem;color:var(--muted);margin:0 0 22px;max-width:34em}
+.buttons{display:flex;flex-wrap:wrap;gap:10px}
+.button{display:inline-flex;align-items:center;gap:6px;border-radius:10px;padding:11px 18px;font-weight:700;text-decoration:none;border:2px solid var(--accent);font-size:.98rem}
+.button.solid{background:var(--accent);color:var(--accent-ink)}
+.button.ghost{color:var(--accent);background:transparent}
+.sample{background:var(--desk);border-radius:16px;padding:18px;margin:0;display:flex;flex-direction:column;gap:10px}
+.sample .pcards{grid-template-columns:minmax(0,1fr)}
+.sample .pcard{background:var(--paper);font-size:15px}
+.sample .key,.sample .order-note{display:none}
+.sample figcaption{font-size:.85rem;color:var(--muted)}
+
+section.block{padding-block:40px;border-top:1px solid var(--rule)}
+h2{font-size:1.5rem;line-height:1.2;margin:0 0 8px}
+.sub{color:var(--muted);margin:0 0 22px;max-width:44em}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));gap:12px}
+.cards article{border:1px solid var(--rule);border-radius:12px;padding:16px;background:var(--paper)}
+.cards h3{font-size:1.02rem;margin:0 0 4px;line-height:1.3}
+.cards p{margin:0;color:var(--muted);font-size:.95rem;line-height:1.5}
+
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px;counter-reset:step}
+.steps li{border:1px solid var(--rule);border-radius:12px;padding:18px;counter-increment:step;background:var(--panel)}
+.steps li::before{content:counter(step);display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-weight:700;margin-bottom:10px}
+.steps h3{font-size:1.05rem;margin:0 0 4px}
+.steps p{margin:0;color:var(--muted);font-size:.95rem}
+.steps a{color:var(--accent);font-weight:700}
+
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px}
+@media (max-width:860px){.two{grid-template-columns:minmax(0,1fr);gap:32px}}
+.feat{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:12px}
+.feat li{position:relative;padding-inline-start:22px;line-height:1.5}
+.feat li::before{content:"";position:absolute;inset-inline-start:2px;top:.55em;width:9px;height:9px;border-radius:50%;background:var(--accent)}
+.feat b{display:block}
+.feat span{color:var(--muted);font-size:.95rem}
+
+.langs{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
+.langs li{border:1px solid var(--rule);border-radius:99px;padding:7px 15px;font-weight:700;background:var(--paper)}
+.langs li small{font-weight:400;color:var(--muted);margin-inline-start:6px}
+.note{color:var(--muted);margin:16px 0 0;max-width:46em;font-size:.95rem}
+
+.privacy{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:12px}
+.privacy div{border-inline-start:4px solid var(--good);background:var(--good-bg);border-radius:8px;padding:14px 16px}
+.privacy b{display:block;margin-bottom:2px}
+.privacy span{font-size:.95rem}
+
+.faq{display:flex;flex-direction:column;gap:10px;max-width:52em;margin-top:16px}
+.faq details{border:1px solid var(--rule);border-radius:10px;padding:13px 16px;background:var(--paper)}
+.faq summary{font-weight:700;cursor:pointer}
+.faq p{margin:8px 0 0;color:var(--muted)}
+
+footer{border-top:2px solid var(--ink);margin-top:20px;padding-block:28px 48px;display:flex;flex-direction:column;gap:18px}
+.foot-row{display:flex;justify-content:space-between;align-items:center;gap:12px 24px;flex-wrap:wrap}
+.contact{margin:0}
+footer a{color:var(--accent);font-weight:700}
+.contact a{overflow-wrap:anywhere}
+.foot-legal{margin:0;border-top:1px solid var(--rule);padding-top:14px;display:flex;flex-wrap:wrap;gap:2px 8px;font-size:.78rem;font-weight:400;color:var(--muted);letter-spacing:.01em}
+@media (max-width:600px){.foot-legal .sep{display:none}.foot-legal{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav" aria-label="Dropwise">
+    <a class="logo" href="index.html"><span class="drop-mark" aria-hidden="true"></span>Dropwise</a>
+    <a class="cta" href="index.html">Go to the builder</a>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <h1>About Dropwise</h1>
+      <p class="lede">Dropwise is a web tool for writing eye drop plans after eye surgery and for glaucoma. It prints a one-page sheet and makes a phone page with reminders, in eight languages.</p>
+      <div class="buttons">
+        <a class="button solid" href="index.html">Open the builder</a>
+        <a class="button ghost" id="exampleLink" href="patient.html" target="_blank" rel="noopener">Example phone page</a>
+      </div>
+    </div>
+    <figure class="sample" aria-label="Sample from a patient sheet">
+      <div id="sampleCard"></div>
+      <figcaption>The first week of a cataract sheet, in Mandarin with English underneath. Each bottle is named by cap colour, generic name and brand.</figcaption>
+    </figure>
+  </header>
+
+  <section class="block" aria-labelledby="who">
+    <h2 id="who">Who it helps</h2>
+    <p class="sub">Eye drop routines are hard to follow when the instructions are in a second language, the print is small, or the schedule changes every week.</p>
+    <div class="cards">
+      <article><h3>Patients who prefer another language</h3><p>Sheets, phone pages, alarms and spoken instructions in eight languages.</p></article>
+      <article><h3>Accessibility</h3><p>Large type, cap colours written as words, pictures for each step, and adjustable text size on the phone.</p></article>
+      <article><h3>Long or complex tapers</h3><p>Trabeculectomy, DMEK and other plans with hourly drops or steroids that continue until the surgeon stops them.</p></article>
+      <article><h3>People with glaucoma</h3><p>Daily drops with no end date, shown with when to use each one and its possible side effects.</p></article>
+      <article><h3>Surgery on both eyes</h3><p>Separate courses for each eye, each starting on its own day.</p></article>
+      <article><h3>Family members and caregivers</h3><p>The phone page can be shared with whoever helps with the drops.</p></article>
+      <article><h3>Clinics without a shared chart</h3><p>A patient code lets another clinic using Dropwise load the same plan.</p></article>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="how">
+    <h2 id="how">How it works</h2>
+    <p class="sub">The clinician fills in one form. The patient gets a sheet and a phone page with the same plan.</p>
+    <ol class="steps">
+      <li><h3>Build the plan</h3><p>Choose the surgery or glaucoma, the eye and the dates. Adjust the drops, or load a saved protocol.</p></li>
+      <li><h3>Print one sheet</h3><p>Double-sided, in the patient's language. The front has the schedule and a QR code. The back has instructions, precautions and warning signs.</p></li>
+      <li><h3>Scan the QR code</h3><p>The phone shows what to use next, walks through each bottle and can add an alarm for every dose. <a id="exampleLink2" href="patient.html" target="_blank" rel="noopener">See an example</a></p></li>
+    </ol>
+  </section>
+
+  <section class="block" aria-labelledby="clin">
+    <div class="two">
+      <div>
+        <h2 id="clin">For clinicians</h2>
+        <ul class="feat">
+          <li><b>Surgery presets</b><span>Cataract, trabeculectomy, vitrectomy, DMEK, PRK and LASIK, based on published regimens. Sources are linked in the builder.</span></li>
+          <li><b>Glaucoma</b><span>Pick from prostaglandins, beta-blockers, alpha agonists, carbonic anhydrase inhibitors, pilocarpine, netarsudil and fixed combinations. No taper: each drop has an eye and how often.</span></li>
+          <li><b>New surgeries</b><span>Name your own surgery, set its drops and save it to the Surgery list.</span></li>
+          <li><b>Taper editor</b><span>Each step shows as a block sized by doses per day, with buttons for common tapers such as 4→3→2→1 weekly.</span></li>
+          <li><b>Drug search</b><span>Find a drop by generic name, brand, type or cap colour. Any other drop can be added by name.</span></li>
+          <li><b>Usual drops and appointments</b><span>Mark the patient's existing drops as keep or stop, and add follow-up visits.</span></li>
+          <li><b>Saved protocols</b><span>Export and import them to share within a clinic.</span></li>
+          <li><b>Clinic settings</b><span>Clinic name, phone and logo, saved on the computer and printed on every sheet.</span></li>
+          <li><b>Chart note and patient codes</b><span>A plain-English summary to copy into the EMR, and an optional 8-character code for the plan.</span></li>
+        </ul>
+      </div>
+      <div>
+        <h2 id="pat">For patients</h2>
+        <ul class="feat">
+          <li><b>Printed sheet</b><span>Morning, noon, evening and bedtime columns. Each bottle is named by cap colour, generic name and brand, with the order to use them.</span></li>
+          <li><b>What to use now</b><span>The phone shows the next drops and today's list. Each dose can be ticked off.</span></li>
+          <li><b>Step by step</b><span>One bottle at a time, with a 5-minute timer and a chime before the next one.</span></li>
+          <li><b>Alarms</b><span>Calendar alarms for each dose that name the cap colour, drug and eye, plus a reminder the day before each appointment.</span></li>
+          <li><b>Read aloud</b><span>Instructions spoken in the patient's language.</span></li>
+          <li><b>Text size</b><span>Chosen the first time the page opens and changeable any time.</span></li>
+          <li><b>Progress</b><span>A calendar of the days when all drops were done.</span></li>
+          <li><b>Instructions and safety</b><span>Pictures for each step, what to do after a missed dose, precautions and warning signs. Glaucoma sheets also list possible side effects.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="langs">
+    <h2 id="langs">Languages</h2>
+    <p class="sub">Every sheet, phone page, alarm and spoken instruction is available in:</p>
+    <ul class="langs">
+      <li lang="zh-Hans">中文（普通话）<small>Mandarin</small></li>
+      <li lang="zh-Hant">中文（粵語）<small>Cantonese</small></li>
+      <li lang="pa">ਪੰਜਾਬੀ <small>Punjabi</small></li>
+      <li><span lang="ar" dir="rtl">العربية</span> <small>Arabic</small></li>
+      <li lang="ko">한국어 <small>Korean</small></li>
+      <li lang="vi">Tiếng Việt <small>Vietnamese</small></li>
+      <li lang="ja">日本語 <small>Japanese</small></li>
+      <li>English</li>
+    </ul>
+    <p class="note">The printed sheet can show English under each line. All patient text is kept in one spreadsheet so translators can review it.</p>
+  </section>
+
+  <section class="block" aria-labelledby="privacy">
+    <h2 id="privacy">Privacy</h2>
+    <p class="sub">Dropwise is built so that it doesn't need to store patient information.</p>
+    <div class="privacy">
+      <div><b>No accounts</b><span>Nobody signs up or logs in.</span></div>
+      <div><b>No patient names stored</b><span>The name prints on paper only. It is not in the QR code, link or patient code.</span></div>
+      <div><b>The plan is in the link</b><span>The QR code contains the schedule itself, so no server is needed to open it.</span></div>
+      <div><b>Progress stays on the phone</b><span>Ticked doses and settings are saved only on the patient's device.</span></div>
+      <div><b>Patient codes are optional</b><span>When used, they store only the drop plan and expire after two years.</span></div>
+      <div><b>Clinic details stay local</b><span>Name, phone and logo are saved in the clinic's browser.</span></div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="faq">
+    <h2 id="faq">FAQ</h2>
+    <div class="faq">
+      <details><summary>Can I use my own protocol instead of the presets?</summary><p>Yes. Every drop and taper step can be edited, and the result can be saved as a protocol or as a new surgery.</p></details>
+      <details><summary>How is the glaucoma sheet different?</summary><p>There is no taper or end date. The sheet shows one "every day" card with the time of day for each drop, then a card per bottle with which eye, how often and possible side effects. The back has glaucoma precautions and warning signs.</p></details>
+      <details><summary>What if the patient's bottle has a different cap colour?</summary><p>Change the cap colour for that drop in the builder. The sheet, phone page and alarms also remind patients to check the drug name on the label.</p></details>
+      <details><summary>Does the patient need to install an app?</summary><p>No. The QR code opens a web page. It can be added to the home screen and works without internet once opened.</p></details>
+      <details><summary>How do the alarms work?</summary><p>The phone page creates a calendar file, and the phone's calendar sounds an alarm at each dose time. If the plan changes, the patient is told to delete the old alarms before adding new ones.</p></details>
+      <details><summary>Can another clinic see the plan?</summary><p>Only if the patient shares their link or code. A clinic that uses Dropwise can enter the code to load the plan.</p></details>
+      <details><summary>Does it replace the doctor's instructions?</summary><p>No. The presets are starting points. The sheet shows whatever the prescribing doctor sets, and patients should follow their own doctor's instructions.</p></details>
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot-row">
+      <p class="contact">Having trouble or found a problem? Email <a href="mailto:archandave@hotmail.com?subject=Dropwise">archandave@hotmail.com</a></p>
+      <a href="index.html">Go to the builder</a>
+    </div>
+    <p class="foot-legal"><span>© 2026 Dropwise. All rights reserved.</span><span class="sep" aria-hidden="true">·</span><span>Developed by Archan Dave</span></p>
+  </footer>
+</div>
+
+<script src="js/i18n.js"></script>
+<script src="js/core.js"></script>
+<script>
+(() => {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const cataract = () => DW.PRESETS.cataract.map(([drug, ph]) => ({drug, eye:"R", off:0, phases:ph.map(([f,n]) => ({f, n}))}));
+  /* The example phone page uses today's dates so it always shows a schedule in progress */
+  const start = DW.addDays(today, -8);
+  const R = {s:"cataract", e:"R", sd:DW.iso(DW.addDays(start,-1)), st:DW.iso(start), iss:DW.iso(DW.addDays(start,-1)), l:"en", p:"", d:cataract(), u:[], a:[]};
+  const url = "patient.html#r=" + DW.encode(R);
+  document.getElementById("exampleLink").href = url; document.getElementById("exampleLink2").href = url;
+  /* The sample is drawn by the same code as the printed sheet: the first card of the cataract preset */
+  const box = document.getElementById("sampleCard"), tmp = document.createElement("div");
+  tmp.innerHTML = DW.pillCardsHTML({...R, st:DW.iso(today), sd:DW.iso(today), l:"zh-Hans"}, "zh-Hans", true);
+  box.lang = "zh-Hans"; box.className = "pcards"; box.appendChild(tmp.querySelector(".pcard"));
+})();
+</script>
+</body>
+</html>

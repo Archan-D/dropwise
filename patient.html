@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dropwise · My eye drops</title>
+<meta name="theme-color" content="#1d5a86">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Dropwise">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500&family=Noto+Sans+Gurmukhi:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap">
+<link rel="stylesheet" href="css/dropwise.css">
+<style>
+/* Layout: one phone-width column. Next dose on top, then today's list, reminders, the taper, appointments and safety info. */
+body{background:var(--desk);font-size:17px}
+/* Text size chosen by the patient: normal / large / extra large. Larger sizes also raise contrast. */
+html[data-size="l"] body{font-size:21px}
+html[data-size="x"] body{font-size:25px}
+html[data-size="l"],html[data-size="x"]{--muted:var(--ink);--rule:color-mix(in srgb,var(--ink) 45%,transparent)}
+body:lang(ar){font-size:18px}
+html[data-size="l"] body:lang(ar){font-size:22px}
+html[data-size="x"] body:lang(ar){font-size:26px}
+.wrap{max-width:560px;margin:0 auto;padding:max(16px,env(safe-area-inset-top)) 16px calc(40px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:16px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.brand{font-weight:700;display:flex;align-items:center;gap:7px}
+.drop-mark{width:11px;height:15px;background:var(--accent);border-radius:50%/60% 60% 40% 40%;transform:rotate(180deg);display:inline-block}
+.top-tools{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.top select,.pill{font-size:.8rem;color:var(--ink);background:var(--field);border:1px solid var(--rule);border-radius:99px;padding:6px 10px;cursor:pointer}
+.pill[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.card{background:var(--paper);border-radius:14px;padding:16px;box-shadow:0 1px 2px rgba(20,30,45,.06),0 4px 16px rgba(20,30,45,.06);display:flex;flex-direction:column;gap:12px}
+.hero{gap:10px}
+.hero-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.pbar{height:10px;border-radius:99px;background:var(--tint);overflow:hidden}
+.pbar i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.hero h1{margin:0;font-size:1.12rem;line-height:1.3}
+.hero .day{color:var(--muted);font-size:.95rem;margin-top:2px}
+.eye-badge{border:3px solid var(--ink);border-radius:10px;padding:5px 12px;text-align:center;font-weight:700;font-size:1.05rem;line-height:1.2}
+.eye-badge small{display:block;font-family:var(--f-mono);font-size:.62rem;letter-spacing:.1em;color:var(--muted)}
+.alert{border:2px solid var(--warn);background:var(--warn-bg);font-weight:700}
+.next{border:2px solid var(--accent)}
+.next .label{font-size:.8rem;font-weight:700;color:var(--accent)}
+.next-drugs{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.next-drugs li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px;align-items:start}
+.next-drugs .num{font-weight:700;color:var(--accent);font-size:1.2em;line-height:1.1}
+.actions{display:grid;grid-template-columns:1fr auto;gap:10px}
+.big-btn{border:0;border-radius:12px;padding:14px 16px;font-weight:700;font-size:1.02rem;cursor:pointer;background:var(--accent);color:var(--accent-ink)}
+.big-btn.ghost{background:transparent;color:var(--accent);border:2px solid var(--accent)}
+.big-btn.wide{width:100%}
+.help{font-size:.85rem;color:var(--muted);margin:0}
+.msg{margin:0;font-weight:700}
+h2{margin:0;font-size:1.08rem}
+.today-list{display:flex;flex-direction:column}
+.trow{display:grid;grid-template-columns:minmax(0,1fr) 34px;grid-template-areas:"when tick" "drops drops";align-items:center;gap:8px 10px;padding:12px 6px;border:0;border-top:1px solid var(--rule);background:none;color:inherit;text-align:start;width:100%;cursor:pointer;border-radius:0}
+.trow:first-child{border-top:0}
+.t-when{grid-area:when;display:flex;gap:8px;align-items:center}
+.t-when > span{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.t-when .ico{width:22px;height:22px;color:var(--ink);flex:none}
+.t-when b{font-size:1.05rem}
+.t-when time{font-family:var(--f-mono);font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.t-drops{grid-area:drops;display:flex;flex-direction:column;gap:8px;min-width:0;padding-inline-start:30px}
+.t-drop{display:flex;gap:4px;align-items:flex-start}
+.t-drop .num{color:var(--accent);font-size:1.1em;line-height:1.3}
+.tick{grid-area:tick;width:30px;height:30px;border-radius:50%;border:2px solid var(--rule);display:grid;place-items:center;justify-self:end}
+.trow.is-done .tick{background:var(--good);border-color:var(--good)}
+.trow.is-done .tick::after{content:"";width:9px;height:15px;border:solid var(--paper);border-width:0 3px 3px 0;transform:rotate(45deg) translate(-1px,-2px)}
+.trow.is-done .t-when,.trow.is-done .t-drops{opacity:.5}
+.trow.is-next{background:color-mix(in srgb,var(--flu) 24%,transparent);border-radius:8px}
+.when-now{display:flex;align-items:center;gap:10px;font-size:1.6rem;line-height:1.1}
+.when-now .ico{width:34px;height:34px;color:var(--ink)}
+.when-now time{font-family:var(--f-mono);font-weight:500;font-variant-numeric:tabular-nums}
+.next .bottle .b-cap{font-size:1.25rem}
+.next .bottle .b-name{font-size:1rem}
+/* Pill cards at phone width: slightly tighter columns */
+.pcards{grid-template-columns:1fr}
+.pcard{font-size:min(1em,16px)}
+.pc th{overflow-wrap:normal}
+.pc th:first-child{width:44%}
+.pc th{font-size:.56em;padding-inline:0}
+.pc td.pc-name{padding:5px 4px}
+.pc .bottle{gap:5px}
+.pc .bottle .mark{width:18px;height:18px}
+.pc .b-cap{font-size:.9em}
+.pc .b-name{font-size:.8em}
+.pc .dose .mark{width:20px;height:20px}
+.pcard header{font-size:.9em}
+.prn{font-size:.9rem;color:var(--muted);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.call{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-weight:700}
+.call a{color:var(--accent)}
+.foot{font-size:.8rem;color:var(--muted);text-align:center;margin:0}
+.how-grid{grid-template-columns:1fr}
+.invalid{text-align:center;padding:36px 18px}
+.card-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.count{font-size:.85rem;font-weight:700;color:var(--good)}
+.actions .big-btn svg{display:block}
+/* Text size chooser (first open) */
+.size-card{border:2px solid var(--accent)}
+.size-opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.size-opt{border:2px solid var(--rule);border-radius:12px;background:var(--field);color:var(--ink);padding:12px 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}
+.size-opt.on{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent)}
+.size-aa{font-weight:700;line-height:1.1;overflow-wrap:anywhere;text-align:center}
+.size-lbl{font-size:13px;color:var(--muted)}
+/* Progress: one square per day */
+.pgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.pday{aspect-ratio:1;max-width:100%;border-radius:8px;border:2px solid var(--rule);display:grid;place-items:center;font-size:.8rem;font-weight:700;font-family:var(--f-mono)}
+.pday.full{background:var(--good);border-color:var(--good);color:var(--paper)}
+.pday.part{background:linear-gradient(to top,var(--good) 50%,transparent 50%);border-color:var(--good)}
+.pday.missed{border-style:solid;color:var(--muted)}
+.pday.future{border-style:dashed;color:var(--muted);opacity:.7}
+.pday.today{outline:3px solid var(--accent);outline-offset:2px}
+/* "It's time" screen */
+body.flow-open{overflow:hidden}
+#now{position:fixed;inset:0;z-index:50;background:var(--paper);overflow-y:auto}
+.nw{max-width:560px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;padding:calc(12px + env(safe-area-inset-top)) 18px calc(24px + env(safe-area-inset-bottom))}
+.nw-head{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:1rem;color:var(--muted)}
+.nw-head b{color:var(--ink)}
+.nw-x{border:0;background:var(--tint);color:var(--ink);width:44px;height:44px;border-radius:50%;font-size:1.6rem;line-height:1;cursor:pointer}
+.nw-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px;padding-block:16px;min-width:0}
+.nw-body > *{max-width:100%}
+.nw-body p{overflow-wrap:break-word}
+.nw-step{margin:0;font-weight:700;color:var(--accent);font-size:1.05rem}
+.nw-dots{display:flex;gap:8px;min-height:10px}
+.nw-dots i{width:12px;height:12px;border-radius:50%;background:var(--rule)}
+.nw-dots i.on{background:var(--accent)} .nw-dots i.was{background:var(--good)}
+.nw-mark .mark{width:132px;height:132px}
+.nw-cap{margin:0;font-size:2.1rem;line-height:1.15;text-wrap:balance}
+.nw-name{margin:0;font-size:1.15rem;font-weight:700}
+.nw-name span{color:var(--muted);font-weight:400}
+.nw-badges{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.nw-badges .badge{font-size:.85rem;padding:2px 10px}
+.nw-hint{margin:4px 0 0;color:var(--muted);font-size:.95rem;max-width:min(30em,100%)}
+.nw-sub{margin:0;color:var(--muted);font-size:1.05rem}
+.nw-timer{font-family:var(--f-mono);font-size:4.6rem;font-weight:500;line-height:1;font-variant-numeric:tabular-nums}
+.nw-next{border:2px dashed var(--rule);border-radius:12px;padding:10px 14px;text-align:start}
+.nw-check{width:110px;height:110px;border-radius:50%;background:var(--good);position:relative}
+.nw-check::after{content:"";position:absolute;left:38px;top:20px;width:28px;height:52px;border:solid var(--paper);border-width:0 9px 9px 0;transform:rotate(45deg)}
+.nw-actions{display:flex;flex-direction:column-reverse;gap:10px;width:100%}
+.nw-actions .big-btn{width:100%}
+.nw-actions .big-btn{padding:18px 16px;font-size:1.1rem}
+.big-code{font-family:var(--f-mono);font-size:2.1rem;font-weight:500;letter-spacing:.1em;text-align:center;border:2px dashed var(--accent);border-radius:10px;padding:8px;direction:ltr}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<div id="now" hidden></div>
+<script src="js/i18n.js"></script>
+<script src="js/core.js"></script>
+<script src="js/patient.js"></script>
+</body>
+</html>

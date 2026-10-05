@@ -13,3 +13,4 @@ node_modules
 README.md
 translations.csv
 audio/README.md
+.wrangler

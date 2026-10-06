@@ -156,11 +156,21 @@ function renderUsual(){
       <select id="uc-${i}" data-f="cap" aria-label="Cap colour">${capOpts(u.cap, false)}</select></div>
   </div>`).join("");
 }
+/* Each appointment: a date with a calendar button, an optional time, and quick dates counted from the surgery (or start) date */
+const CAL_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>';
+/* Same day of the month, or the month's last day if it's shorter (Jan 31 + 1 month = Feb 28) */
+const addMonths = (d, n) => { const y = d.getFullYear(), m = d.getMonth() + n, last = new Date(y, m + 1, 0).getDate(); return new Date(y, m, Math.min(d.getDate(), last)); };
+const apptQuick = () => G() ? [["1 month", 0, 1], ["3 months", 0, 3], ["6 months", 0, 6]] : [["Day 1", 1, 0], ["Week 1", 7, 0], ["Month 1", 0, 1]];
 function renderAppts(){
-  $("appts").innerHTML = S.a.map((a, i) => `<div class="card" data-a="${i}"><div class="card-head">
-    <input type="date" id="ad-${i}" data-f="date" value="${a.date}" aria-label="Appointment date">
-    <input type="time" id="at-${i}" data-f="time" value="${a.time}" aria-label="Appointment time" style="max-width:8.5em">
-    <button class="x" type="button" data-act="rma" aria-label="Remove this appointment">×</button></div></div>`).join("");
+  const base = G() ? "start date" : "surgery";
+  $("appts").innerHTML = S.a.map((a, i) => `<div class="card" data-a="${i}">
+    <div class="appt-row">
+      <label>Date<span class="date-wrap"><input type="date" id="ad-${i}" data-f="date" value="${a.date}"><button class="cal-btn" type="button" data-act="cal" aria-label="Open calendar">${CAL_ICON}</button></span></label>
+      <label>Time (optional)<input type="time" id="at-${i}" data-f="time" value="${a.time}"></label>
+      <button class="x" type="button" data-act="rma" aria-label="Remove this appointment">×</button>
+    </div>
+    <div class="appt-quick"><span class="muted">From ${base}:</span>${apptQuick().map(([l, d, m]) => `<button type="button" class="qchip" data-act="qd" data-d="${d}" data-m="${m}">${l}</button>`).join("")}</div>
+  </div>`).join("");
 }
 const surgTitle = p => p.s === "custom" ? (p.sn || "New surgery") : (SURGERIES.find(([k]) => k === p.s) || [,""])[1];
 function renderProtos(){
@@ -404,9 +414,19 @@ $("usual").addEventListener("change", e => { const c = e.target.closest("[data-u
   if (f !== "name"){ S.u[+c.dataset.u][f] = e.target.value; renderUsual(); renderSheet(); } });
 $("usual").addEventListener("click", e => { if (e.target.dataset.act === "rmu"){ S.u.splice(+e.target.closest("[data-u]").dataset.u, 1); renderUsual(); renderSheet(); } });
 
-$("addAppt").addEventListener("click", () => { S.a.push({date:iso(addDays(parse(S.sd), 7)), time:""}); renderAppts(); renderSheet(); });
+$("addAppt").addEventListener("click", () => {
+  const d = G() ? addMonths(parse(S.st), 3) : addDays(parse(S.sd), 7);
+  S.a.push({date:iso(d), time:""}); renderAppts(); renderSheet(); });
 $("appts").addEventListener("change", e => { const c = e.target.closest("[data-a]"); if (!c) return; S.a[+c.dataset.a][e.target.dataset.f] = e.target.value; renderSheet(); });
-$("appts").addEventListener("click", e => { if (e.target.dataset.act === "rma"){ S.a.splice(+e.target.closest("[data-a]").dataset.a, 1); renderAppts(); renderSheet(); } });
+$("appts").addEventListener("click", e => {
+  const btn = e.target.closest("[data-act]"); if (!btn) return;
+  const i = +btn.closest("[data-a]").dataset.a, act = btn.dataset.act;
+  if (act === "rma"){ S.a.splice(i, 1); renderAppts(); renderSheet(); return; }
+  if (act === "cal"){ const el = $("ad-" + i); try { el.showPicker(); } catch(err){ el.focus(); } return; }
+  if (act === "qd"){ S.a[i].date = iso(addMonths(addDays(parse(G() ? S.st : S.sd), +btn.dataset.d), +btn.dataset.m)); renderAppts(); renderSheet(); }
+});
+/* Clicking anywhere in the date box opens the calendar too (browsers that support it) */
+$("appts").addEventListener("click", e => { if (e.target.matches('input[type="date"]')) try { e.target.showPicker(); } catch(err){} });
 
 /* Protocols store eyes relative to the operated eye, so one protocol works for either side */
 const toRel = e => e === "B" ? "B" : e === S.e ? "op" : "other";
@@ -451,6 +471,7 @@ $("protoImport").addEventListener("change", async e => {
 });
 
 
+$("printBtn").addEventListener("click", () => { closePicker(); window.print(); });
 const copy = async (text, ok) => { try { await navigator.clipboard.writeText(text); flash(ok); } catch(e){ flash("Copy failed. Select the text and copy it manually."); } };
 $("copyLink").addEventListener("click", () => copy(patientURL(), "Patient link copied."));
 $("copyNote").addEventListener("click", () => copy($("note").value, "Chart note copied."));

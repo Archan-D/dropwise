@@ -74,6 +74,20 @@ textarea{font-family:var(--f-mono);font-size:.78rem;line-height:1.45;resize:vert
 .gtimes{font-size:.76rem;color:var(--muted);margin:-2px 0 0}
 .meta.m4{grid-template-columns:repeat(4,minmax(0,1fr))}
 @media (max-width:640px){.meta.m4{grid-template-columns:1fr 1fr}}
+/* Print button pinned to the bottom of the panel */
+.print-bar{position:sticky;bottom:-40px;z-index:4;margin:0 -18px -40px;padding:12px 18px calc(16px + 40px);background:var(--panel);border-top:1px solid var(--rule);display:flex;flex-direction:column;gap:4px;box-shadow:0 -6px 12px rgba(20,30,45,.06)}
+@media (max-width:960px){.print-bar{bottom:0;margin:0 -16px;padding:12px 16px}}
+.print-bar .btn{padding:11px;font-size:.95rem}
+.print-bar .hint{text-align:center}
+/* Follow-up appointments: labelled date (with a calendar button) and optional time */
+.appt-row{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr) auto;gap:8px;align-items:end}
+.appt-row label{font-size:.76rem;color:var(--muted);gap:2px}
+.date-wrap{display:flex;gap:4px}
+.date-wrap input{flex:1}
+.cal-btn{border:1px solid var(--rule);background:var(--field);border-radius:6px;padding:0 8px;cursor:pointer;color:var(--accent);display:grid;place-items:center}
+.cal-btn:hover{border-color:var(--accent)}
+.cal-btn svg{width:18px;height:18px}
+.appt-quick{display:flex;flex-wrap:wrap;gap:5px;align-items:center;font-size:.76rem}
 /* Clinic */
 .logo-row{display:flex;align-items:center;gap:10px}
 .logo-prev{flex:1;min-width:0;height:44px;border:1px dashed var(--rule);border-radius:6px;display:grid;place-items:center;font-size:.78rem;color:var(--muted);overflow:hidden;background:var(--field)}
@@ -220,6 +234,24 @@ textarea{font-family:var(--f-mono);font-size:.78rem;line-height:1.45;resize:vert
     </fieldset>
 
     <fieldset>
+      <legend>My protocols</legend>
+      <div class="row">
+        <select id="protoList" aria-label="Saved protocols"></select>
+        <div class="btns"><button class="btn" type="button" id="protoLoad">Load</button><button class="btn" type="button" id="protoDelete">Delete</button></div>
+      </div>
+      <div class="row">
+        <input type="text" id="protoName" placeholder="Name, e.g. Dr. Lee phaco">
+        <button class="btn solid" type="button" id="protoSave">Save current drops</button>
+      </div>
+      <div class="btns">
+        <button class="btn" type="button" id="protoExport">Export file</button>
+        <button class="btn" type="button" id="protoImportBtn">Import file</button>
+      </div>
+      <input type="file" id="protoImport" accept=".json,application/json" hidden>
+      <p class="hint">Saved in this browser. Export a file to share protocols with your clinic.</p>
+    </fieldset>
+
+    <fieldset>
       <legend>Procedure</legend>
       <label>Surgery<select id="surgery"></select></label>
       <div class="stack" id="customFields" hidden>
@@ -245,24 +277,6 @@ textarea{font-family:var(--f-mono);font-size:.78rem;line-height:1.45;resize:vert
       <label class="check"><input type="checkbox" id="bi" checked> Show English under each line</label>
       <label>Patient name<input type="text" id="patient" placeholder="Leave blank to handwrite" autocomplete="off"></label>
       <p class="hint">The patient name prints on the sheet only. It is never put in the QR code or link.</p>
-    </fieldset>
-
-    <fieldset>
-      <legend>My protocols</legend>
-      <div class="row">
-        <select id="protoList" aria-label="Saved protocols"></select>
-        <div class="btns"><button class="btn" type="button" id="protoLoad">Load</button><button class="btn" type="button" id="protoDelete">Delete</button></div>
-      </div>
-      <div class="row">
-        <input type="text" id="protoName" placeholder="Name, e.g. Dr. Lee phaco">
-        <button class="btn solid" type="button" id="protoSave">Save current drops</button>
-      </div>
-      <div class="btns">
-        <button class="btn" type="button" id="protoExport">Export file</button>
-        <button class="btn" type="button" id="protoImportBtn">Import file</button>
-      </div>
-      <input type="file" id="protoImport" accept=".json,application/json" hidden>
-      <p class="hint">Saved in this browser. Export a file to share protocols with your clinic.</p>
     </fieldset>
 
     <fieldset>
@@ -307,6 +321,10 @@ textarea{font-family:var(--f-mono);font-size:.78rem;line-height:1.45;resize:vert
     </fieldset>
 
     <div class="basis" id="basis"></div>
+    <div class="print-bar">
+      <button class="btn solid" type="button" id="printBtn">🖨 Print patient sheet</button>
+      <span class="hint">Letter paper · print on both sides</span>
+    </div>
     </div>
 
     <div class="ptab" id="tabClinic" role="tabpanel" aria-labelledby="tabClinicBtn" hidden>

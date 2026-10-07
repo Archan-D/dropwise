@@ -30,6 +30,7 @@ button,input,select,textarea{font:inherit}
 /* Script-specific fonts */
 :lang(pa){font-family:"Noto Sans Gurmukhi",var(--f-body)}
 :lang(ar){font-family:"Noto Naskh Arabic",var(--f-body)}
+:lang(hi){font-family:var(--f-body),"Noto Sans Devanagari","Kohinoor Devanagari","Nirmala UI",sans-serif}
 :lang(zh-Hans){font-family:var(--f-body),"PingFang SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif}
 :lang(zh-Hant){font-family:var(--f-body),"PingFang HK","PingFang TC","Noto Sans CJK TC","Microsoft JhengHei",sans-serif}
 :lang(ja){font-family:var(--f-body),"Hiragino Sans","Noto Sans CJK JP","Yu Gothic",sans-serif}

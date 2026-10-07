@@ -222,7 +222,7 @@ function render(){
   document.documentElement.dataset.size = size || "n";
   const tools = `<div class="top-tools">
       <button class="pill" id="sizeBtn">Aa ${esc(t.textSize)}</button>
-      <select id="langSel" aria-label="Language">${LANGS.map(([k,v]) => `<option value="${k}"${k === lang ? " selected" : ""}>${v}</option>`).join("")}</select></div>`;
+      <select id="langSel" aria-label="Language">${DW.LANG_MENU.map(([k,v]) => `<option value="${k}"${k === lang ? " selected" : ""}>${v}</option>`).join("")}</select></div>`;
   const top = `<div class="top"><span class="brand"><span class="drop-mark" aria-hidden="true"></span>Dropwise</span>${tools}</div>`;
   if (!R){ app.innerHTML = top + `<div class="card invalid"><p class="msg">${esc(t.invalid)}</p></div>`; bind(); return; }
 

@@ -159,6 +159,13 @@ test("Arabic plural forms", () => {
   const t = DW.T.ar; eq([t.fq.n(1), t.fq.n(2), t.dur(2), t.dur(5), t.dur(14)], ["مرة واحدة في اليوم", "مرتان في اليوم", "يومان", "5 أيام", "14 يوماً"]);
 });
 test("languages without plural forms never borrow English", () => { eq(DW.T["zh-Hans"].fq.n(1), "每天1次"); });
+test("Tagalog, French and Hindi: plural forms, links and menus", () => {
+  eq([DW.T.fr.fq.n(1), DW.T.fr.fq.n(3), DW.T.fr.dur(1), DW.T.fr.dur(7)], ["Une fois par jour", "3 fois par jour", "1 jour", "7 jours"]);
+  eq([DW.T.hi.fq.n(2), DW.T.tl.dur(14)], ["दिन में 2 बार", "14 araw"]);
+  for (const l of ["tl", "fr", "hi"]) eq(DW.decode(DW.encode(make("cataract", "R", {l}))).l, l);
+  eq(DW.LANG_MENU[0][0], "en"); eq(DW.LANG_MENU.length, DW.LANGS.length);
+  ok(DW.pillCardsHTML(make("cataract", "R", {l:"hi"}), "hi", true).includes("गुलाबी ढक्कन"), "Hindi cap colour");
+});
 
 console.log("QR code");
 test("version grows with the link and finder patterns are present", () => {

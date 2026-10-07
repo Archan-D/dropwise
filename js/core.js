@@ -100,10 +100,15 @@ const BASIS = {
   custom:{txt:"New surgery: starts from a general antibiotic + steroid taper. Edit the drops to match your protocol, then save it so it appears in the Surgery list.",src:[]}
 };
 
-const LANGS = [["zh-Hans","中文（普通话）· Mandarin"],["zh-Hant","中文（粵語）· Cantonese"],["pa","ਪੰਜਾਬੀ · Punjabi"],["ar","العربية · Arabic"],["ko","한국어 · Korean"],["vi","Tiếng Việt · Vietnamese"],["ja","日本語 · Japanese"],["en","English"]];
-const LOCALE = {en:"en-CA","zh-Hans":"zh-CN","zh-Hant":"zh-HK",pa:"pa-IN",ar:"ar-u-nu-latn",ko:"ko-KR",vi:"vi-VN",ja:"ja-JP"};
+/* Links store the language by its position in LANGS, so new languages only ever go at the end. Menus use LANG_MENU's order. */
+const LANGS = [["zh-Hans","中文（普通话）· Mandarin"],["zh-Hant","中文（粵語）· Cantonese"],["pa","ਪੰਜਾਬੀ · Punjabi"],["ar","العربية · Arabic"],["ko","한국어 · Korean"],["vi","Tiếng Việt · Vietnamese"],["ja","日本語 · Japanese"],["en","English"],
+  ["tl","Tagalog · Filipino"],["fr","Français · French"],["hi","हिन्दी · Hindi"]];
+/* English first, then by English name */
+const LANG_MENU = ["en","ar","zh-Hant","fr","hi","ja","ko","zh-Hans","pa","tl","vi"].map(k => LANGS.find(([l]) => l === k));
+const LOCALE = {en:"en-CA","zh-Hans":"zh-CN","zh-Hant":"zh-HK",pa:"pa-IN",ar:"ar-u-nu-latn",ko:"ko-KR",vi:"vi-VN",ja:"ja-JP",tl:"fil-PH",fr:"fr-CA",hi:"hi-IN"};
 /* Cantonese never falls back to a Mandarin voice */
-const VOICE = {en:["en-CA","en-US","en-GB","en"],"zh-Hans":["zh-CN","cmn-CN","zh"],"zh-Hant":["zh-HK","yue-HK","yue"],pa:["pa-IN","pa"],ar:["ar-SA","ar-EG","ar"],ko:["ko-KR","ko"],vi:["vi-VN","vi"],ja:["ja-JP","ja"]};
+const VOICE = {en:["en-CA","en-US","en-GB","en"],"zh-Hans":["zh-CN","cmn-CN","zh"],"zh-Hant":["zh-HK","yue-HK","yue"],pa:["pa-IN","pa"],ar:["ar-SA","ar-EG","ar"],ko:["ko-KR","ko"],vi:["vi-VN","vi"],ja:["ja-JP","ja"],
+  tl:["fil-PH","fil","tl-PH","tl"],fr:["fr-CA","fr-FR","fr"],hi:["hi-IN","hi"]};
 
 /* ---------- Text: rebuild the nested structure from the flat translation table ----------
    "how.3" -> how[2];  "fq.n#1" / "fq.n#other" -> fq.n(n) picks the plural form and fills {n} {m}.
@@ -543,7 +548,7 @@ function speakDose(R, plan, s, lang){
   return `${name ? name + ", " : ""}${fmtTime(lang, s.t).replace(/\.$/, "")}. ${parts.join(". ")}.${s.drugs.length > 1 ? " " + t.order : ""}`;
 }
 
-return {LIB,CAPS,CLASSES,FORMS,FREQS,TIMES,PRESETS,SURGERIES,BASIS,LANGS,LOCALE,VOICE,T,
+return {LIB,CAPS,CLASSES,FORMS,FREQS,TIMES,PRESETS,SURGERIES,BASIS,LANGS,LANG_MENU,LOCALE,VOICE,T,
   prettyCode,iso,parse,addDays,dayDiff,fmtTime,fmtDate,shortDate,fullDate,freqStr,hashCode,
   surgName,surgLabel,dayProgress,GLAUCOMA_CLS,isGlaucomaDrug,isInfo,shownEye,infoHTML,sideEffects,whenWords,meta,allDrops,phaseOn,horizon,hasOngoing,isOngoing,dayPlan,segments,mixedEyes,encode,decode,buildICS,chartNote,
   SLOTS,SLOT_OF,fitsSlots,capWord,slotName,bottleHTML,pillCardsHTML,speakDose,esc,L,mark,dropMark,drugLabel,dayIcon,CIRCLED,glanceHTML,legendHTML,whenHTML,scheduleHTML,byEye,usualHTML,apptHTML,howSteps,howHTML,listHTML,warnings};

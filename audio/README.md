@@ -1,7 +1,7 @@
 # Recorded instructions (optional)
 
 The "Listen" buttons use the phone's built-in voice. For better quality, and for languages
-the phone may not have (often Punjabi and Cantonese), add a human recording.
+the phone may not have (often Punjabi, Cantonese and Tagalog), add a human recording.
 
 Record a native speaker reading the "How to use your drops" steps, save it as MP3, and put it here:
 
@@ -13,6 +13,9 @@ Record a native speaker reading the "How to use your drops" steps, save it as MP
     audio/vi/instructions.mp3        Vietnamese
     audio/ja/instructions.mp3        Japanese
     audio/en/instructions.mp3        English
+    audio/tl/instructions.mp3        Tagalog
+    audio/fr/instructions.mp3        French
+    audio/hi/instructions.mp3        Hindi
 
 When a file exists, the page plays it instead of the phone's voice. No code changes needed.
 Ideally the person who records is also the one who reviews that language's translation.

@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Dropwise</title>
-<meta name="description" content="Build eye drop schedules and patient sheets in eight languages, after eye surgery and for glaucoma.">
+<meta name="description" content="Build eye drop schedules and patient sheets in eleven languages, after eye surgery and for glaucoma.">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500&family=Noto+Sans+Gurmukhi:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500&family=Noto+Sans+Gurmukhi:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Noto+Sans+Devanagari:wght@400;700&display=swap">
 <link rel="stylesheet" href="css/dropwise.css">
 <style>
 /* Layout: clinician controls on the left; the patient sheet (front and back of one page) on a desk to the right. */
@@ -167,6 +167,9 @@ textarea{font-family:var(--f-mono);font-size:.78rem;line-height:1.45;resize:vert
 .measure{position:absolute;left:-10000px;top:0;width:8.5in!important;max-width:none!important;min-height:0!important;padding:.42in .5in!important;visibility:hidden}
 .s-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:10px}
 .s-head h2{margin:0;font-size:1.55rem;line-height:1.15;text-wrap:balance}
+/* On paper (and wide screens) the title wraps beside the eye badge and QR code instead of pushing them onto a new row */
+@media (min-width:641px){.s-head{flex-wrap:nowrap}.s-head h2{flex:1 1 0;min-width:0}.head-right{flex:none}}
+.measure .s-head{flex-wrap:nowrap}.measure .s-head h2{flex:1 1 0;min-width:0}.measure .head-right{flex:none}
 .eye-badge{border:3px solid var(--ink);border-radius:9px;padding:5px 12px;text-align:center;font-weight:700;font-size:1.15rem;line-height:1.15}
 .eye-badge small{display:block;font-family:var(--f-mono);font-size:.62rem;letter-spacing:.1em;color:var(--muted);font-weight:500}
 .meta{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px 16px;margin:0}
@@ -188,6 +191,7 @@ textarea{font-family:var(--f-mono);font-size:.78rem;line-height:1.45;resize:vert
 .qr-box p .en{font-size:.95em}
 @media (max-width:640px){.head-right{flex-wrap:wrap}.qr-box{max-width:none}}
 .turn{margin-top:auto;text-align:end;font-weight:700;font-size:.9em;color:var(--muted)}
+.turn .en{display:inline;margin-inline-start:6px}
 .s-foot{margin-top:auto;border-top:2px solid var(--ink);padding-top:10px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-weight:700}
 .brandline{font-size:.7rem;color:var(--muted);font-weight:400}
 

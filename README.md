@@ -7,7 +7,7 @@ Eye drop schedules in the patient's language: after eye surgery, and for glaucom
 
 The schedule travels inside the link after the `#`, which browsers never send to the server. "Done" marks stay on the patient's phone. The patient's name prints on the paper sheet only and is never put in the link, QR code or patient code. The only server part is the optional **patient code** lookup (below); everything else works as plain files.
 
-Languages: English, Mandarin (Simplified Chinese), Cantonese (Traditional Chinese, Hong Kong written style), Punjabi (Gurmukhi), Arabic, Korean, Vietnamese and Japanese.
+Languages: English, Arabic, Cantonese (Traditional Chinese, Hong Kong written style), French (Canadian), Hindi, Japanese, Korean, Mandarin (Simplified Chinese), Punjabi (Gurmukhi), Tagalog (Filipino) and Vietnamese. The builder starts in English; menus list English first, then the rest by English name.
 
 > Default regimens come from published trials and protocols (sources are linked in the builder), not a standard of care. Translations are AI drafts: have each language reviewed by a certified medical translator before patients use the tool (see "Translations" below).
 
@@ -15,7 +15,7 @@ Languages: English, Mandarin (Simplified Chinese), Cantonese (Traditional Chines
 
 - **Six surgery presets**: cataract, trabeculectomy, vitrectomy, DMEK, PRK, LASIK. Every drop, taper step and duration can be edited.
 - **Glaucoma (daily drops, no taper)**: choose *Glaucoma* in the Surgery list. The drop list then shows the glaucoma drops (prostaglandins, beta-blockers including gel-forming timolol, alpha agonists, carbonic anhydrase inhibitors, pilocarpine, netarsudil and the fixed combinations Cosopt, Combigan, Simbrinza, Azarga, Xalacom, DuoTrav, Ganfort and Rocklatan) plus lubricants. Each drop has an eye and a "how often" (1×, 2×, 3×, 4×, bedtime or as needed) instead of a taper, and starts with its usual frequency (prostaglandins at bedtime). The surgery date, second-eye course and usual-drops sections are hidden. The sheet becomes an information sheet: one "every day" card, a table with each drop's possible side effects, and glaucoma precautions and warning signs on the back.
-- **New surgeries**: choose *＋ New surgery*, type its name (and optionally the name in the patient's language), set up the drops and press *Save as a new surgery*. It then appears in the Surgery list on that computer, with general precautions in all eight languages. Export it under *My protocols* to share with your clinic.
+- **New surgeries**: choose *＋ New surgery*, type its name (and optionally the name in the patient's language), set up the drops and press *Save as a new surgery*. It then appears in the Surgery list on that computer, with general precautions in every language. Export it under *My protocols* to share with your clinic.
 - **Per-eye drops and second-eye surgery**: each drop is assigned to the right, left or both eyes and can start on a later day. "Second-eye course" copies the current drops to the other eye starting day 15. When drops differ between eyes, the sheet shows a separate table for each eye.
 - **"Until told" steps** for drops that continue indefinitely (the DMEK preset uses this for the last steroid step).
 - **The patient's usual drops** (e.g. glaucoma drops), each set to keep using in both eyes, one eye only, or stop.

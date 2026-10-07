@@ -9,7 +9,7 @@ const store = {
 };
 
 const today = new Date(); today.setHours(0,0,0,0);
-const S = {s:"cataract", e:"R", sd:iso(today), st:iso(addDays(today,1)), iss:iso(today), startTouched:false, l:"zh-Hans", bi:true, patient:"", p:"", d:[], u:[], a:[], sn:"", snl:"", sel:"cataract", code:"", codeFor:"", clinic:""};
+const S = {s:"cataract", e:"R", sd:iso(today), st:iso(addDays(today,1)), iss:iso(today), startTouched:false, l:"en", bi:true, patient:"", p:"", d:[], u:[], a:[], sn:"", snl:"", sel:"cataract", code:"", codeFor:"", clinic:""};
 /* Clinic name, phone and logo are saved on this computer and printed on every sheet. The logo stays on paper only. */
 const CLINIC = store.get("dw:clinic", {name:"", phone:"", logo:""});
 S.clinic = CLINIC.name || ""; S.p = CLINIC.phone || "";
@@ -302,7 +302,7 @@ function fitPages(){
 }
 
 /* ---------- Wiring ---------- */
-$("lang").innerHTML = opts(LANGS, S.l);
+$("lang").innerHTML = opts(DW.LANG_MENU, S.l);
 const syncForm = () => { $("eye" + S.e).checked = true; $("sdate").value = S.sd; $("start").value = S.st; $("lang").value = S.l; $("bi").checked = S.bi; };
 const renderAll = () => { renderMode(); renderDrops(); renderUsual(); renderAppts(); renderProtos(); renderBasis(); renderSheet(); };
 const flash = msg => { $("status").textContent = msg; clearTimeout(flash.t); flash.t = setTimeout(() => $("status").textContent = "", 3000); };
